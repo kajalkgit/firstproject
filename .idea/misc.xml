@@ -9,8 +9,8 @@
         <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.169" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.142" />
         <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.215625" />
-        <entry key="app/src/main/res/layout/activity_player.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_player.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/music_view.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />

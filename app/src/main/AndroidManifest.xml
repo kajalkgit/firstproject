@@ -12,7 +12,10 @@
         android:label="Media Player"
         android:roundIcon="@mipmap/music_player_icon_round"
         android:supportsRtl="true"
-        android:theme="@style/splash_screen">
+        android:theme="@style/splash_screen"
+        android:requestLegacyExternalStorage="true"
+        tools:ignore="AllowBackup">
+
         <activity
             android:name=".FavouriteActivity"
             android:screenOrientation="portrait"
