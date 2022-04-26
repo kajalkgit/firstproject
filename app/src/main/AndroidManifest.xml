@@ -4,6 +4,7 @@
     package="com.kajal.videoplayer">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+
         tools:ignore="ScopedStorage"/>
 
     <application
@@ -17,6 +18,9 @@
             android:name=".FavouriteActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+        <activity android:name=".PlayerActivityV"
+            android:screenOrientation="landscape"
+            android:exported="false"/>
         <activity
             android:name=".playlistActivity"
             android:screenOrientation="portrait"

@@ -11,8 +11,8 @@
     <string name="end_tv">Loading...</string>
 
     /////////////////////////chhama/////////////////////
-    <string name="all_media">All Media</string>
-    <string name="all_folders">All Folders</string>
+    <string name="all_media">Media</string>
+    <string name="all_folders">Folders</string>
 
     ////////////////////chhama//////////////////////
     <string name="video_name">Video Name</string>

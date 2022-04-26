@@ -36,7 +36,7 @@ class VideoAdapter(private val context: Context, private var videoList: ArrayLis
             .apply(RequestOptions().placeholder(R.drawable.video_player).centerCrop())
             .into(holder.image)
         holder.root.setOnClickListener {
-            val intent = Intent(context, PlayerActivity::class.java)
+            val intent = Intent(context, PlayerActivityV::class.java)
             ContextCompat.startActivity(context, intent, null)
         }
 
