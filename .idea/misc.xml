@@ -3,16 +3,24 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-v24/video_player.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/back_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/favorite_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/folder_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/next_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/pause_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/previous_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.169" />
         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.142" />
+        <entry key="app/src/main/res/layout/activity_audio.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_player.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.16875" />
-        <entry key="app/src/main/res/layout/music_view.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/folders_view.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/music_view.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.10277777777777777" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/music_player_icon.xml" value="0.229" />
       </map>

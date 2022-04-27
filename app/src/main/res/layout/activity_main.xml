@@ -6,19 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-  <LinearLayout
+  <androidx.appcompat.widget.LinearLayoutCompat
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:orientation="vertical">
 
 
-      <LinearLayout
+      <FrameLayout
+          android:id="@+id/fragmentFL"
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
-          android:orientation="horizontal">
+          android:layout_weight="1"
+          android:orientation="vertical">
 
-          <Button
-              android:id="@+id/shuffle_btn"
+          <com.google.android.material.bottomnavigation.BottomNavigationView
+              android:id="@+id/bottomNav"
               android:layout_width="wrap_content"
               android:layout_height="match_parent"
               android:layout_weight="1"
@@ -52,7 +54,7 @@
               android:contentDescription="@string/playlist_btn"
               style="@style/Widget.AppCompat.Button.Borderless"/>
 
-      </LinearLayout>
+      </FrameLayout>
 
       <TextView
           android:id="@+id/totalSongs"
@@ -69,6 +71,6 @@
 
           />
 
-  </LinearLayout>
+  </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

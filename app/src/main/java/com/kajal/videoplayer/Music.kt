@@ -1,5 +1,6 @@
 package com.kajal.videoplayer
 
+import android.media.MediaMetadataRetriever
 import java.util.concurrent.TimeUnit
 
 data class Music(val id: String, val title: String, val duration: Long=0, val album:String, val artist:String, val path:String,
@@ -14,3 +15,24 @@ fun formatDuration(duration: Long):String{
 
 }
 
+
+fun getImgArt(path: String): ByteArray? {
+    val retriever = MediaMetadataRetriever()
+    retriever.setDataSource(path)
+    return retriever.embeddedPicture
+}
+
+ fun setSongPosition(increment: Boolean) {
+    if (increment)
+    {
+        if(PlayerActivity.musicListPA.size-1 == PlayerActivity.songPosition)
+            PlayerActivity.songPosition =0
+        else ++PlayerActivity.songPosition
+    } else{
+        if(0 == PlayerActivity.songPosition)
+            PlayerActivity.songPosition = PlayerActivity.musicListPA.size -1
+        else --PlayerActivity.songPosition
+    }
+}
+
+data class Folder(val id: String,val folderName: String)

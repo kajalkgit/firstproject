@@ -17,7 +17,7 @@
         android:background="@color/black">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/backButtonFA"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:backgroundTint="@android:color/transparent"

@@ -6,7 +6,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage"/>
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
+        android:name=".ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/music_player_icon"
         android:label="Media Player"
@@ -38,6 +41,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service android:name=".MusicService"/>
+        <receiver android:name=".NotificationReceiver"
+            android:enabled="true"/>
     </application>
 
 </manifest>

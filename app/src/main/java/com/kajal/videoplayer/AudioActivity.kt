@@ -17,7 +17,7 @@ import com.kajal.videoplayer.databinding.ActivityMainBinding
 import java.io.File
 import kotlin.system.exitProcess
 
-class MainActivity : AppCompatActivity() {
+class AudioActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var musicAdapter: MusicAdapter
@@ -30,19 +30,19 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // requestRuntimePermission()
+        // requestRuntimePermission()
         setTheme(R.style.coolPinkNav)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if(requestRuntimePermission())
-        initializeLayout()
+            initializeLayout()
 
 
 
         binding.shuffleBtn.setOnClickListener {
-            val intent = Intent(this@MainActivity, PlayerActivity::class.java)
+            val intent = Intent(this@AudioActivity, PlayerActivity::class.java)
             intent.putExtra("index",0)
             intent.putExtra("class","MainActivity")
             startActivity(intent)
@@ -50,13 +50,13 @@ class MainActivity : AppCompatActivity() {
         binding.favrtBtn.setOnClickListener {
 
 
-            startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))
+            startActivity(Intent(this@AudioActivity, FavouriteActivity::class.java))
         }
 
         binding.playlistBtn.setOnClickListener {
 
 
-            startActivity(Intent(this@MainActivity, playlistActivity::class.java))
+            startActivity(Intent(this@AudioActivity, playlistActivity::class.java))
         }
 
     }
@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
                 this,
                 arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 13)
-              return false
+            return false
         }
         return true
 
@@ -110,8 +110,8 @@ class MainActivity : AppCompatActivity() {
 
         binding.mediaRV.setHasFixedSize(true)
         binding.mediaRV.setItemViewCacheSize(13)
-        binding.mediaRV.layoutManager = LinearLayoutManager(this@MainActivity)
-        musicAdapter = MusicAdapter(this@MainActivity, MusicListMA)
+        binding.mediaRV.layoutManager = LinearLayoutManager(this@AudioActivity)
+        musicAdapter = MusicAdapter(this@AudioActivity, MusicListMA)
         binding.mediaRV.adapter = musicAdapter
         binding.totalSongs.text = "Total Songs : " + musicAdapter.itemCount
 
@@ -162,8 +162,8 @@ class MainActivity : AppCompatActivity() {
                     val artistsC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
-                     val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
-                      val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
+                    val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
+                    val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
                     val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
 
                     val music = Music(
