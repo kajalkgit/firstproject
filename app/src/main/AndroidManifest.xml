@@ -28,6 +28,11 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
+            android:name=".AudioActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity
             android:name=".PlayerActivity"
             android:screenOrientation="portrait"
             android:exported="false" />

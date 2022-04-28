@@ -35,4 +35,4 @@ fun getImgArt(path: String): ByteArray? {
     }
 }
 
-data class Folder(val id: String,val folderName: String)
+

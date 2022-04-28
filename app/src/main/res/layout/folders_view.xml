@@ -1,23 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".FoldersFragment"
-    android:orientation="vertical">
 
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="2dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?attr/selectableItemBackground"
+    tools:context=".VideosFragment"
+    android:orientation="horizontal">
+<com.google.android.material.imageview.ShapeableImageView
+    android:layout_width="70dp"
+    android:layout_height="50dp"
+    android:src="@drawable/folder_icon"
+    android:contentDescription="Image"
+    android:tint="@color/cool_pink"
+    />
     <TextView
+        android:id="@+id/folderNameFV"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Folders:"
+        android:layout_height="match_parent"
+        android:text="@string/folder_name"
+        android:textSize="18sp"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="5dp"
         android:textColor="@color/black"
         android:layout_margin="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/FoldersRV"
+        android:id="@+id/VideoRV"
         android:layout_width="match_parent"
+        tools:listitem="@layout/folders_view"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@drawable/scroll_bar_icon"/>
+        android:scrollbars="vertical"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

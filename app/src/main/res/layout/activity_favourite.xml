@@ -29,8 +29,8 @@
         <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/fvrt_btn"
-    android:text="@string/fvrt_btn"
+    android:contentDescription="@string/video_name"
+    android:text="@string/video_name"
     android:gravity="center"
     android:textStyle="bold"
     android:textSize="25dp"

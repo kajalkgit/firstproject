@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.kajal.videoplayer.databinding.ActivityMainBinding
+
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -24,20 +25,21 @@ class MainActivity : AppCompatActivity() {
 
     companion object { //static object
         lateinit var MusicListMA: ArrayList<Music>
-        lateinit var folderList: ArrayList<Folder>
+        // lateinit var folderList: ArrayList<Folder>
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // requestRuntimePermission()
+        // requestRuntimePermission()
         setTheme(R.style.coolPinkNav)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if(requestRuntimePermission())
-        initializeLayout()
+            initializeLayout()
 
 
 
@@ -74,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                 this,
                 arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
                 13)
-              return false
+            return false
         }
         return true
 
@@ -122,7 +124,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     private fun getAllAudio(): ArrayList<Music> {
         val temList = ArrayList<Music>()
-        val temFolderList = ArrayList<String>()
+        //val temFolderList = ArrayList<String>()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
@@ -156,14 +158,14 @@ class MainActivity : AppCompatActivity() {
                 do {
                     val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
                     val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
-                    val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))
-                    val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
+                    // val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))
+                    // val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
                     val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
                     val artistsC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
-                     val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
-                      val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
+                    val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
+                    val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
                     val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
 
                     val music = Music(

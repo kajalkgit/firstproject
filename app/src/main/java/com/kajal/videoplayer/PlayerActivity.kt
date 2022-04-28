@@ -115,7 +115,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
                 setLayout()
                 createMediaPlayer()
             }
-            "MainActivity"->{
+            "AudioActivity"->{
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 musicListPA.shuffle()
