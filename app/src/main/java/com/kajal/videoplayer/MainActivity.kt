@@ -13,19 +13,32 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.kajal.videoplayer.databinding.ActivityMainBinding
-
 import java.io.File
 import kotlin.system.exitProcess
+import com.kajal.videoplayer.databinding.ActivityMainBinding as ActivityMainBinding1
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding1
     private lateinit var musicAdapter: MusicAdapter
+  //  var folderViewAdapter : FolderViewAdapter ?= null
+
+    //db var use
+//    var dbHandler:MyHelper ?= null
+//    var folderList: List<Folder> = ArrayList<Folder>()
+//    lateinit var recycler_folder : RecyclerView
+//
+//    lateinit var btn_add : Button
+//
+//   var linearLayoutManager : LinearLayoutManager ?= null
+
+
+
+  // var helper = MyHelper(applicationContext)
+//    var db: SQLiteDatabase? = helper.readableDatabase
 
     companion object { //static object
         lateinit var MusicListMA: ArrayList<Music>
-        // lateinit var folderList: ArrayList<Folder>
+      //  lateinit var folderList: ArrayList<Folder>
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -33,10 +46,23 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         // requestRuntimePermission()
         setTheme(R.style.coolPinkNav)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding1.inflate(layoutInflater)
         setContentView(binding.root)
 
+       // recycler_folder =findViewById(R.id.recycler_folder)
+      //  btn_add = findViewById(R.id.add_btn)
+
+
+      //  fetchlist()
+
+//        btn_add.setOnClickListener{
+//            val i = Intent(applicationContext,AddFolder::class.java)
+//            startActivity(i)
+//        }
+//
+//        dbHandler = MyHelper(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
 
         if(requestRuntimePermission())
             initializeLayout()
@@ -55,13 +81,23 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))
         }
 
-        binding.playlistBtn.setOnClickListener {
+       binding.folderBtn.setOnClickListener {
 
 
-            startActivity(Intent(this@MainActivity, playlistActivity::class.java))
+            startActivity(Intent(this@MainActivity, FolderActivity::class.java))
         }
 
+
     }
+
+//    private fun fetchlist(){
+//        folderList = dbHandler!!.getAllFolder()
+//        folderViewAdapter = FolderViewAdapter(folderList,applicationContext)
+//        linearLayoutManager = LinearLayoutManager(applicationContext)
+//        recycler_folder.layoutManager = linearLayoutManager
+//        recycler_folder.adapter = folderViewAdapter
+//        folderViewAdapter?.notifyDataSetChanged()
+//    }
 
 
     //for req permission
@@ -107,9 +143,6 @@ class MainActivity : AppCompatActivity() {
     private fun initializeLayout() {
 
         MusicListMA = getAllAudio()
-
-
-
         binding.mediaRV.setHasFixedSize(true)
         binding.mediaRV.setItemViewCacheSize(13)
         binding.mediaRV.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -124,7 +157,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     private fun getAllAudio(): ArrayList<Music> {
         val temList = ArrayList<Music>()
-        //val temFolderList = ArrayList<String>()
+        val temFolderList = ArrayList<String>()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,

@@ -6,6 +6,17 @@ import java.util.concurrent.TimeUnit
 data class Music(val id: String, val title: String, val duration: Long=0, val album:String, val artist:String, val path:String,
                                    val artUri: String)
 
+class Folder  {
+    var id:Int =0
+     var name:String= ""
+    //var folder: ArrayList<Music> =[ ]
+
+
+}
+class MediaPlaylist{
+    var ref: ArrayList<Folder> = ArrayList()
+}
+
 fun formatDuration(duration: Long):String{
     val minutes = TimeUnit.MINUTES.convert(duration,TimeUnit.MILLISECONDS)
     val seconds =(TimeUnit.SECONDS.convert(duration,TimeUnit.MILLISECONDS)-

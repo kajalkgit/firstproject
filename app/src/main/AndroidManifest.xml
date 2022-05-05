@@ -23,14 +23,15 @@
             android:name=".FavouriteActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
-        <activity
-            android:name=".playlistActivity"
+        <activity android:name=".AddFolder"
             android:screenOrientation="portrait"
             android:exported="false" />
+
         <activity
-            android:name=".AudioActivity"
+            android:name=".FolderActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+
 
         <activity
             android:name=".PlayerActivity"

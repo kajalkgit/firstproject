@@ -1,38 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="2dp"
     android:clickable="true"
     android:focusable="true"
     android:background="?attr/selectableItemBackground"
-    tools:context=".VideosFragment"
-    android:orientation="horizontal">
-<com.google.android.material.imageview.ShapeableImageView
-    android:layout_width="70dp"
-    android:layout_height="50dp"
-    android:src="@drawable/folder_icon"
-    android:contentDescription="Image"
-    android:tint="@color/cool_pink"
-    />
-    <TextView
-        android:id="@+id/folderNameFV"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/folder_name"
-        android:textSize="18sp"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="5dp"
-        android:textColor="@color/black"
-        android:layout_margin="10dp"/>
+    android:layout_marginBottom="5dp">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/VideoRV"
-        android:layout_width="match_parent"
-        tools:listitem="@layout/folders_view"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"/>
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="70dp"
+        android:layout_height="50dp"
+        android:src="@drawable/folder_icon"
+        android:contentDescription="Image"
+        android:tint="@color/cool_pink"/>
+
+
+    <TextView
+        android:id="@+id/nameF"
+        android:layout_width="145dp"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="5dp"
+
+
+        android:gravity="center_vertical"
+        android:text="@string/folder_name"
+        android:textColor="@color/black"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/edit_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:textSize="13sp"
+        android:layout_marginLeft="103dp"
+        android:backgroundTint="@color/white"
+        android:text="edit"
+        android:textColor="@color/black" />
+
 
 </LinearLayout>

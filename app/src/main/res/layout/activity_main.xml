@@ -41,7 +41,7 @@
                 android:contentDescription="@string/video_name"
                 style="@style/Widget.AppCompat.Button.Borderless"/>
             <Button
-                android:id="@+id/playlist_btn"
+                android:id="@+id/folder_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -71,6 +71,8 @@
             />
 
     </LinearLayout>
+
+
 
 
 
