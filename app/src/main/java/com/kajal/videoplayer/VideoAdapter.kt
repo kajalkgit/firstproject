@@ -25,11 +25,11 @@ class VideoAdapter(private val context: Context, private var videoList: ArrayLis
         return MyHolder(VideoViewBinding.inflate(LayoutInflater.from(context), parent, false))
     }
 
-    override fun onBindViewHolder(holder:MyHolder, position: Int) {
-        Log.d("imagess==>",videoList.toString())
+    override fun onBindViewHolder(holder: MyHolder, position: Int) {
+        Log.d("imagess==>", videoList.toString())
         holder.vName.text = videoList[position].title
         holder.folder.text = videoList[position].folderName
-        holder.duration.text = DateUtils.formatElapsedTime(videoList[position].duration/1000)
+        holder.duration.text = DateUtils.formatElapsedTime(videoList[position].duration / 1000)
         Glide.with(context)
             .asBitmap()
             .load(videoList[position].artUri)
@@ -43,6 +43,6 @@ class VideoAdapter(private val context: Context, private var videoList: ArrayLis
     }
 
     override fun getItemCount(): Int {
-       return videoList.size
+        return videoList.size
     }
 }

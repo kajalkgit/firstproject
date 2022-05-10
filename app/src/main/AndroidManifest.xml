@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kajal.videoplayer">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 
-        tools:ignore="ScopedStorage"/>
+<!--        tools:ignore="ScopedStorage"/>-->
 
     <application
+        android:requestLegacyExternalStorage="true"
         android:allowBackup="true"
         android:icon="@mipmap/music_player_icon"
         android:label="Media Player"
@@ -19,12 +21,19 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity android:name=".PlayerActivityV"
+            android:configChanges="uiMode|orientation|screenSize|screenLayout"/>
             android:screenOrientation="landscape"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".playlistActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+
+        <activity
+            android:name=".FoldersActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+             />
         <activity
             android:name=".PlayerActivity"
             android:screenOrientation="portrait"

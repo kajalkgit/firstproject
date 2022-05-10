@@ -1,6 +1,7 @@
 package com.kajal.videoplayer
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
@@ -17,6 +18,7 @@ class PlayerActivityV : AppCompatActivity() {
         binding.playerView.player = player
         val mediaItem = MediaItem.fromUri(MainActivity.videoList[0].artUri)
         player.setMediaItem(mediaItem)
+        Log.d("mediaItemssss",mediaItem.toString())
         player.prepare()
         player.play()
 

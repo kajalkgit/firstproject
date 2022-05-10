@@ -1,5 +1,6 @@
 package com.kajal.videoplayer
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -17,9 +18,9 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    companion object{
+    companion object {
         lateinit var videoList: ArrayList<Video>
-        lateinit var folderList: ArrayList<Folder>
+         var folderList: ArrayList<Folder>?=null
     }
 
 
@@ -30,14 +31,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        if(requestRuntimePermission()){
-            Log.d("all videosssss",getAllVideo().toString())
+        if (requestRuntimePermission()) {
+            Log.d("all videosssss", getAllVideo().toString())
+             folderList = ArrayList()
             videoList = getAllVideo()
+
             setFragment(VideosFragment())
         }
         ////////////////////////////chhama// //////////////////////
 //        Log.d("selectedidsss=>",selectedItem.toString())
-            binding.bottomNav.setOnItemSelectedListener {
+        binding.bottomNav.setOnItemSelectedListener {
 
 //                val selectedItemId: Int = binding.bottomNav.selectedItemId
 //                val selectedItem: MenuItem = binding.bottomNav.menu.findItem(selectedItemId)
@@ -49,13 +52,13 @@ class MainActivity : AppCompatActivity() {
 //        else{
 //            Toast.makeText(this@MainActivity, "Item Clicked on media", Toast.LENGTH_SHORT).show()}
 
-                when(it.itemId){
-                    R.id.MediaView -> setFragment(VideosFragment())
-                    R.id.FoldersView -> setFragment(FoldersFragment())
-                }
+            when (it.itemId) {
+                R.id.MediaView -> setFragment(VideosFragment())
+                R.id.FoldersView -> setFragment(FoldersFragment())
+            }
             return@setOnItemSelectedListener true
 
-    }
+        }
 
 
 //////////////////////////////////end//////////////////////////////////////
@@ -77,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun setFragment(fragment: Fragment){
+    private fun setFragment(fragment: Fragment) {
         val transcation = supportFragmentManager.beginTransaction()
         transcation.replace(R.id.fragmentFL, fragment)
         transcation.disallowAddToBackStack()
@@ -86,14 +89,19 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
     //for req permission
-    private fun requestRuntimePermission():Boolean {
-        if(ActivityCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        !=PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),13)
+    private fun requestRuntimePermission(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                13
+            )
             return false
         }
         return true
@@ -110,18 +118,23 @@ class MainActivity : AppCompatActivity() {
         if (requestCode == 13) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-            else
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                    13)
+            folderList = ArrayList()
+            videoList = getAllVideo()
+            setFragment(VideosFragment())
+        } else
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                13
+            )
 
-        }
     }
+
+
 
     private fun getAllVideo(): ArrayList<Video> {
         val tempList = ArrayList<Video>()
-        val tempFolder = ArrayList<String>()
+        val tempFolderList = ArrayList<String>()
         val projection = arrayOf(
             MediaStore.Video.Media.TITLE,
             MediaStore.Video.Media.SIZE,
@@ -131,34 +144,54 @@ class MainActivity : AppCompatActivity() {
             MediaStore.Video.Media.DATE_ADDED,
             MediaStore.Video.Media.DURATION,
             MediaStore.Video.Media.BUCKET_ID
+
         )
-        val cursor = this.contentResolver.query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, projection, null, null, MediaStore.Video.Media.DATE_ADDED + " DESC")
-        if(cursor != null)
-            if(cursor.moveToNext())
-                do{
-                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE))
+        val cursor = this.contentResolver.query(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            null,
+            null,
+            MediaStore.Video.Media.DATE_ADDED + " DESC"
+        )
+        if (cursor != null)
+            if (cursor.moveToNext())
+                do {
+                    val titleC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE))
                     val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID))
-                    val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME))
-                    val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID))
+                    val folderC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME))
+                    val folderIdC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID))
                     val sizeC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE))
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA))
-                   val durationC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION)).toLong()
+                    val durationC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION))
+                            .toLong()
 
-                    try{
-                          val file = File(pathC)
-                          val artUri = Uri.fromFile(file)
-                          val video = Video(title = titleC, id = idC, folderName = folderC, size=sizeC, path= pathC, artUri = artUri)
-                        if(file.exists()) tempList.add(video)
+                    try {
+                        val file = File(pathC)
+                        val artUri = Uri.fromFile(file)
+                        val video = Video(
+                            title = titleC,
+                            id = idC,
+                            folderName = folderC,
+                            size = sizeC,
+                            path = pathC,
+                            artUri = artUri
+                        )
+                        if (file.exists()) tempList.add(video)
 
                         //for adding folders
 
-                        if(!tempFolder.contains(folderC)){
-                            tempFolder.add(folderC)
-                            folderList.add(Folder(id = folderIdC, folderName = folderC))
+                        if (!tempFolderList.contains(folderC)) {
+                            tempFolderList.add(folderC)
+                            folderList?.add(Folder(id = folderIdC, folderName = folderC))
                         }
-                    }catch (e:Exception){}
-                }while (cursor.moveToNext())
-                cursor?.close()
+                    } catch (e: Exception) {
+                    }
+                } while (cursor.moveToNext())
+        cursor?.close()
         return tempList
     }
 }

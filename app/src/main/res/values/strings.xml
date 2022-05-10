@@ -19,5 +19,12 @@
     <string name="folder_name">Folder Name</string>
     <string name="duration">00.00</string>
     <string name="image">Image</string>
+    /////////////////////////chhama////////////////////
+    <string name="loading">Loading..</string>
+    <string name="semi_colon">:</string>
+    ///////////////////chhama////////////////////
+    <string name="lock">Lock Icon</string>
+    <string name="back_button">Back Button</string> ////////////////backbutton used in video/////////
+    <string name="menu">Menu</string>
 
 </resources>
