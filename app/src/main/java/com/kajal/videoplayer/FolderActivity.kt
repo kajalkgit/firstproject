@@ -9,21 +9,20 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kajal.videoplayer.databinding.ActivityFolderBinding
 
-
 class FolderActivity : AppCompatActivity() {
     private lateinit var binding : ActivityFolderBinding
 
-     var adapter : FolderViewAdapter ?=null
+    var adapter : FolderViewAdapter ?=null
 
     companion object{
-       // var mediaPlaylist:MediaPlaylist = MediaPlaylist()
-       lateinit var folderList: ArrayList<Folder>
+        // var mediaPlaylist:MediaPlaylist = MediaPlaylist()
+        lateinit var folderList: ArrayList<Folder>
     }
 
 
 
     var dbHandler:MyHelper ?= null
- //   var folderList: List<Folder>? =null
+    //   var folderList: List<Folder>? =null
     lateinit var recycler_folder : RecyclerView
 
     lateinit var btn_add : Button
@@ -35,7 +34,7 @@ class FolderActivity : AppCompatActivity() {
         setTheme(R.style.coolPink)
         binding = ActivityFolderBinding.inflate(layoutInflater)
         setContentView(R.layout.activity_folder)
-      //  setContentView(R.layout.activity_folder)
+        //  setContentView(R.layout.activity_folder)
 
 
         recycler_folder = findViewById(R.id.rv_list)
@@ -52,18 +51,18 @@ class FolderActivity : AppCompatActivity() {
             val i = Intent(this,AddFolder::class.java)
             startActivity(i)
         }
-      // binding..setHasFixedSize(true)
-      //  binding.recyclerFolder.setItemViewCacheSize(13)
-       // binding.recyclerFolder.layoutManager = GridLayoutManager(this@FolderActivity, 3)
-       // adapter = FolderViewAdapter(this, folderList = mediaPlaylist.ref)
-     //  binding.recyclerFolder.adapter = adapter
+        // binding..setHasFixedSize(true)
+        //  binding.recyclerFolder.setItemViewCacheSize(13)
+        // binding.recyclerFolder.layoutManager = GridLayoutManager(this@FolderActivity, 3)
+        // adapter = FolderViewAdapter(this, folderList = mediaPlaylist.ref)
+        //  binding.recyclerFolder.adapter = adapter
 
 
 
 //        binding.addBtn.setOnClickListener{
 //            customAletDialog()
 //        }
-            //   fetchlist()
+        //   fetchlist()
 
         Log.d("fectchoi => ",fetchlist().toString())
 
@@ -78,7 +77,7 @@ class FolderActivity : AppCompatActivity() {
 
 
 
-      //mus  supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        //mus  supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
     }
 
@@ -139,5 +138,6 @@ class FolderActivity : AppCompatActivity() {
 //
 //            }
 //       }
-    }
+}
+
 

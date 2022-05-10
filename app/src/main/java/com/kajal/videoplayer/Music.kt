@@ -10,9 +10,8 @@ class Folder  {
     var id:Int =0
      var name:String= ""
     //var folder: ArrayList<Music> =[ ]
-
-
 }
+
 class MediaPlaylist{
     var ref: ArrayList<Folder> = ArrayList()
 }

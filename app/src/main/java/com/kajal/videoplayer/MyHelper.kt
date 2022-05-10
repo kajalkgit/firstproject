@@ -48,13 +48,13 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
                 do {
 
                     val folders = Folder()
-                    Log.d( "Cursor(0)" ,cursor.getColumnName(0));
 
 //                    folders.id=
 //                        Integer.parseInt("1")
 //                    folders.name = cursor.getString(cursor.getColumnIndexOrThrow(TABLE_NAME))
                       //  "FOLDER"
                    folders.id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ID)))
+
                     folders.name = cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_NAME))
 //
 
@@ -63,6 +63,7 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
                 } while (cursor.moveToNext())
 
             }
+            Log.d( "CursorFolder",cursor.getCount().toString() );
         }
         cursor.close()
         return folderlist
@@ -83,12 +84,14 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
 
     //select data of particular id
     @SuppressLint("Range")
-    fun getFolder(id: Int) : Folder{
+    fun getFolder(_id: Int) : Folder{
         val folders = Folder()
-        val db =  writableDatabase
 
-        val selectQuery = "SELECT *FROM $TABLE_NAME WHERE $ID = $id"
-        val cursor = db.rawQuery(selectQuery,null)
+        val db =  writableDatabase
+//        Log.d("")
+        val selectQuery = "SELECT *FROM $TABLE_NAME WHERE $ID = $_id"
+       val cursor = db.rawQuery(selectQuery,null)
+        Log.d( "Cursor(count)" , cursor.count.toString());
 
         cursor?.moveToFirst()
 //      folders.id=
@@ -96,15 +99,20 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
 //        folders.name = cursor.getString(cursor.getColumnIndexOrThrow(TABLE_NAME))
            // "FOLDER"
 
-         folders.id = Integer.parseInt(cursor.getString(cursor.getColumnIndex(ID)))
+         folders.id = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(ID)))
+        Log.d( "CursorId(0)",folders.id.toString());
         folders.name = cursor.getString(cursor.getColumnIndexOrThrow(FOLDER_NAME))
-          cursor.close()
+        Log.d( "Cursor(count)" , cursor.getCount().toString());
+        Log.d( "Cursor(select)" , _id.toString());
+        //cursor?.moveToNext()
+        cursor.close()
         return folders
     }
 
     fun deleteFolder(id: Int):Boolean{
         val db= this.writableDatabase
         val _success = db.delete(TABLE_NAME, ID + "=?", arrayOf(id.toString())).toLong()
+        Log.d( "ID" ,ID);
         db.close()
         return Integer.parseInt("$_success")!=-1
 
@@ -115,8 +123,10 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
         val db= this.writableDatabase
         val values = ContentValues()
         values.put(FOLDER_NAME,folders.name)
-        val _success = db.update(TABLE_NAME,values, ID+"=?", arrayOf(folders.id.toString()))
+        val _success = db.update(TABLE_NAME,values, ID+ "=?", arrayOf(folders.id.toString()))
+
+        Log.d( "IDupdate", folders.name);
         db.close()
-        return Integer.parseInt("$_success")!=-1
+        return (Integer.parseInt("$_success")!=-1)
     }
 }

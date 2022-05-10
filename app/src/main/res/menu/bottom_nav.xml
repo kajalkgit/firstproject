@@ -5,7 +5,14 @@
         android:title="@string/folder_name"
         android:icon="@drawable/folder_icon"/>
     <item android:id="@+id/MediaView"
-        android:title="@string/media_name"
-        android:icon="@drawable/all_media_icon"/>
+        android:title="@string/video_name"
+        android:icon="@drawable/video_player"/>
+    <item android:id="@+id/AudioView"
+        android:title="@string/audio_name"
+        android:icon="@drawable/music_icon"/>
+    <item android:id="@+id/ShuffleView"
+    android:title="Shuffle"
+    android:icon="@drawable/shuffle_icon"/>
+
 
 </menu>

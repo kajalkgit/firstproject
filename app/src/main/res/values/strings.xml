@@ -3,7 +3,7 @@
     <string name="shuffle_btn">Shuffle</string>
     <string name="fvrt_btn">Favourites</string>
     <string name="playlist_btn">Playlist</string>
-    <string name="total_songs">Total Songs</string>
+    <string name="total_songs">Total Songs :</string>
 
     <string name="world_of_music">World Of Music</string>
     <string name="song_name">Song Name</string>
@@ -11,10 +11,12 @@
     <string name="start_tv">00:00</string>
     <string name="end_tv">Loading...</string>
     <string name="song_album">Song Album</string>
-     <string name ="delete_folder">Delete</string>
+    <string name="delete_folder">Delete</string>
     <string name="total_media">Total Media</string>
     <string name="name_folders">Folders Name</string>
     <string name="video_name">Videos</string>
+    <string name="audio_name">Audios</string>
+    <string name="add_folder">Add Folder</string>
     <string name="media_name">Media</string>
     <string name="folder_name">Folders</string>
     <string name="duration">00.00</string>

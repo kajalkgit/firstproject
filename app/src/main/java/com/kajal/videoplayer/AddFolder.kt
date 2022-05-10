@@ -31,11 +31,14 @@ class AddFolder : AppCompatActivity() {
         if (intent != null && intent.getStringExtra("Mode") == "E") {
             //update data
             isEditMode = true
+            Log.d("kkakjf",isEditMode.toString())
             saveFolder.text = "Update Data"
             dlt_btn.visibility = View.VISIBLE
-            val folders: Folder = dbHandler!!.getFolder(intent.getIntExtra("Id", 0))
-            ETName.setText(folders.name)
 
+            val folders: Folder = dbHandler!!.getFolder(intent.getIntExtra("ID", 0))
+            Log.d( "Cursorfile",folders.toString() )
+            ETName.setText(folders.name)
+            Log.d( "Cursorfile",ETName.toString())
 
         } else {
 
@@ -52,7 +55,8 @@ class AddFolder : AppCompatActivity() {
 
             if (isEditMode) {
                 //update
-                folders.id = intent.getIntExtra("Id", 0)
+                folders.id = intent.getIntExtra("ID", 0)
+                Log.d( "updateid",folders.id.toString() )
                 folders.name = ETName.toString()  //fectching foldrs name
 
                 success = dbHandler?.updateFolder(folders) as Boolean
@@ -76,7 +80,7 @@ class AddFolder : AppCompatActivity() {
             val dialog = AlertDialog.Builder(this).setTitle("Info")
                 .setMessage("Click Yes if you want to delete folder")
                 .setPositiveButton("YES", { dialog, i ->
-                    val success = dbHandler?.deleteFolder(intent.getIntExtra("Id", 0)) as Boolean
+                    val success = dbHandler?.deleteFolder(intent.getIntExtra("ID", 0)) as Boolean
                     if (success)
                         finish()
                     dialog.dismiss()
