@@ -29,7 +29,7 @@ class VideoAdapter(private val context: Context, private var videoList: ArrayLis
         Log.d("imagess==>", videoList.toString())
         holder.vName.text = videoList[position].title
         holder.folder.text = videoList[position].folderName
-        holder.duration.text = DateUtils.formatElapsedTime(videoList[position].duration / 1000)
+        holder.duration.text = formatDuration(videoList[position].duration)
         Glide.with(context)
             .asBitmap()
             .load(videoList[position].artUri)

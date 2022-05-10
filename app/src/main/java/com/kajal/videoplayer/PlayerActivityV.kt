@@ -10,6 +10,10 @@ import com.kajal.videoplayer.databinding.ActivityPlayervBinding
 
 class PlayerActivityV : AppCompatActivity() {
     private lateinit var binding: ActivityPlayervBinding
+
+    companion object{
+        lateinit var playerList: ArrayList<Video>
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPlayervBinding.inflate(layoutInflater)
