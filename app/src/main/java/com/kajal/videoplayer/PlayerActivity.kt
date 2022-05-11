@@ -33,13 +33,7 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
         setTheme(R.style.coolPink)
         binding = ActivityPlayerBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val intent = Intent(this, MusicService:: class.java)
-        bindService(intent,this, BIND_AUTO_CREATE)
-        startService(intent) //for starting service
-
         initializeLayout()
-
         //back btn functionality
         binding.backBtnPA.setOnClickListener()
         {
@@ -108,14 +102,33 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
     private fun initializeLayout()
     {
         songPosition = intent.getIntExtra("index", 0)
-        when (intent.getStringExtra("class")) {               //add music to adapter
+        when (intent.getStringExtra("class")) {
+
+            "NowPlaying"->{
+                setLayout()
+                binding.tvSeekBarStarting.text = formatDuration(musicService!!.mediaPlayer!!.currentPosition.toLong())
+                binding.tvSeekBarEnd.text = formatDuration(musicService!!.mediaPlayer!!.duration.toLong())
+                binding.seekbarPA.progress = musicService!!.mediaPlayer!!.currentPosition
+                binding.seekbarPA.max= musicService!!.mediaPlayer!!.duration
+            }
+
+            //add music to adapter
             "MusicAdapter" -> {
+
+                val intent = Intent(this, MusicService:: class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent) //for starting service
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 setLayout()
                 createMediaPlayer()
             }
             "AudioActivity"->{
+
+                val intent = Intent(this, MusicService:: class.java)
+                bindService(intent,this, BIND_AUTO_CREATE)
+                startService(intent) //for starting service
+
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 musicListPA.shuffle()

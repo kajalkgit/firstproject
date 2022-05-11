@@ -48,6 +48,9 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.coolPinkNav)
         binding = ActivityMainBinding1.inflate(layoutInflater)
         setContentView(binding.root)
+
+
+
         setFragment(AudioFragment())
 
         // recycler_folder =findViewById(R.id.recycler_folder)

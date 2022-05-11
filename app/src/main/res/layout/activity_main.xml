@@ -8,16 +8,40 @@
 
 
 
-
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
+
         <FrameLayout
             android:id="@+id/fragmentFL"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mediaRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+        </FrameLayout>
+
+
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nowPlaying"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:name="com.kajal.videoplayer.NowPlaying"
+            tools:layout="@layout/fragment_now_playing"/>
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
@@ -30,6 +54,10 @@
             app:itemTextAppearanceActive="@color/black"
             app:itemTextAppearanceInactive="@android:color/darker_gray"
             android:focusable="true" />
+
+
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,12 +65,16 @@
         android:orientation="vertical">
 
 
+
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-<!--            <Button-->
+
+            <!--            <Button-->
 <!--                android:id="@+id/shuffleBtn"-->
 <!--                android:layout_width="wrap_content"-->
 <!--                android:layout_height="match_parent"-->
@@ -88,15 +120,7 @@
 <!--            android:layout_margin="10dp"/>-->
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/mediaRV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
-
     </LinearLayout>
-
 
 
 
