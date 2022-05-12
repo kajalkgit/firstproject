@@ -6,7 +6,10 @@
     <item android:id="@+id/MediaView"
         android:title="@string/all_media"
         android:icon="@drawable/all_media_icon"/>
-
-
-
+    <item android:id="@+id/AudioView"
+        android:title="@string/audio_name"
+        android:icon="@drawable/music_icon"/>
+    <item android:id="@+id/ShuffleView"
+    android:title="Shuffle"
+    android:icon="@drawable/shuffle_icon"/>
 </menu>

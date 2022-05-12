@@ -15,8 +15,9 @@
         android:layout_weight="1">
 
        <ImageButton
+           android:id="@+id/backBtnPA"
            android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
+           android:layout_height="40dp"
            android:layout_marginStart="5dp"
            android:src="@drawable/back_icon"
            android:tint="@color/black"
@@ -46,6 +47,7 @@
     </LinearLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/songImgPA"
         android:layout_width="250dp"
         android:layout_height="250dp"
         android:layout_margin="10dp"
@@ -55,7 +57,9 @@
         app:strokeColor="@color/purple_200"
         />
 
+    <!-- cureent song name-->
     <TextView
+        android:id="@+id/songNamePA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
@@ -77,13 +81,17 @@
         android:layout_weight="1">
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/previousBtnPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
         app:icon="@drawable/previous_icon"
             app:iconSize="40dp"
             android:layout_marginHorizontal="25dp"/>
 
+
+        <!--- pause button-->
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/playpauseBtnPA"
             android:layout_width="40dp"
             android:layout_height="40dp"
             app:icon="@drawable/pause_icon"
@@ -93,8 +101,9 @@
             android:backgroundTint="@android:color/holo_red_light"/>
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/nextBtnPA"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:icon="@drawable/next_icon"
             app:iconSize="40dp"
             android:layout_marginHorizontal="25dp"/>
@@ -110,6 +119,7 @@
         android:layout_weight="1">
 
         <TextView
+            android:id="@+id/tvSeekBarStarting"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -118,6 +128,7 @@
             android:text="@string/start_tv" />
 
         <androidx.appcompat.widget.AppCompatSeekBar
+          android:id="@+id/seekbarPA"
             android:layout_width="0dp"
             android:layout_gravity="center"
             android:layout_height="match_parent"
@@ -125,6 +136,7 @@
             />
 
         <TextView
+            android:id="@+id/tvSeekBarEnd"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textColor="@color/black"

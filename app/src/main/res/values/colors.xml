@@ -8,12 +8,18 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+
     <!-- custom colors-->
 ////////////////////chhama////////////////////////////
+
+    <!-- custome-->
+
     <color name="cool_blue">#0091EA</color>
     <color name="cool_green">#64DD17</color>
     <color name="cool_pink">#F50057</color>
     <color name="cool_yellow">#FFD600</color>
+
+
 
 
 

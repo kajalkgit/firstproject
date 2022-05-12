@@ -17,7 +17,7 @@
         android:background="@color/black">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/backButtonFA"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:backgroundTint="@android:color/transparent"
@@ -29,8 +29,8 @@
         <TextView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/fvrt_btn"
-    android:text="@string/fvrt_btn"
+    android:contentDescription="@string/video_name"
+    android:text="@string/video_name"
     android:gravity="center"
     android:textStyle="bold"
     android:textSize="25dp"

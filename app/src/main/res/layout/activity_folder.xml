@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".playlistActivity">
+    tools:context=".FolderActivity">
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -17,7 +18,7 @@
         android:background="@color/black">
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/backButtonPLA"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:backgroundTint="@android:color/transparent"
@@ -28,8 +29,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/playlist_btn"
-            android:text="@string/playlist_btn"
+            android:contentDescription="@string/folder_name"
+            android:text="@string/folder_name"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="25dp"
@@ -37,14 +38,33 @@
             />
     </LinearLayout>
 
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    ></androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_list"
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linearLayout"
+        android:paddingBottom="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"/>
+
+
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+       android:id="@+id/add_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="52dp"
-        android:backgroundTint="@color/white"
-        app:icon="@drawable/shuffle_icon"
+        android:backgroundTint="@color/cool_pink"
+        app:icon="@drawable/add_icon"
         app:iconSize="35dp"
-        app:iconTint="@color/black"
         app:strokeWidth="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,5 +72,16 @@
         app:layout_constraintVertical_bias="0.844" />
 
 
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

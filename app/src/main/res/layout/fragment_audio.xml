@@ -3,23 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:background="@color/white"
-    tools:context=".VideosFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".AudioFragment">
 
     <TextView
-        android:id="@+id/totalVideos"
+        android:id="@+id/TotalSongs"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Total Videos:"
+        android:text="@string/total_songs"
         android:textColor="@color/black"
         android:layout_margin="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/VideoRV"
+        android:id="@+id/AudioRV"
         android:layout_width="match_parent"
-        tools:listitem="@layout/video_view"
+        tools:listitem="@layout/music_view"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>
 

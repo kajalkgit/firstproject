@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".AddFolder">
+
+
+    <com.google.android.material.textfield.TextInputLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:inputType="text"
+        android:hint="@string/name_folders"
+        android:visibility="visible"
+        app:boxStrokeColor="@color/cool_pink"
+        app:startIconDrawable="@drawable/folder_icon"
+        app:startIconTint="@color/cool_pink">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Etname"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:maxLength="40"
+            android:singleLine="true"
+
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/yourName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/ur_name"
+        app:boxStrokeColor="@color/cool_pink"
+        app:startIconDrawable="@drawable/folder_icon"
+
+        app:startIconTint="@color/cool_pink">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="text"
+            android:maxLength="40"
+            android:singleLine="true"
+
+            />
+
+        <Button
+
+            android:id="@+id/save_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+        <Button
+
+            android:id="@+id/dlt_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delete" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat >

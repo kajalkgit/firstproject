@@ -6,16 +6,42 @@
     android:layout_height="match_parent"
     android:focusable="true"
     tools:context=".MainActivity">
-////////////////////////// chhama ////////////////////////////////
+
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <FrameLayout
             android:id="@+id/fragmentFL"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/mediaRV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                />
+        </FrameLayout>
+
+
+
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nowPlaying"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:name="com.kajal.videoplayer.NowPlaying"
+            tools:layout="@layout/fragment_now_playing"/>
+
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNav"
             android:layout_width="match_parent"
@@ -28,6 +54,7 @@
             app:itemTextAppearanceActive="@color/black"
             app:itemTextAppearanceInactive="@android:color/darker_gray"
             android:focusable="true" />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 //////////////////////////////////////////////end///////////////
   <LinearLayout
@@ -92,5 +119,77 @@
           />
 
   </LinearLayout>
+
+
+
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <!--            <Button-->
+<!--                android:id="@+id/shuffleBtn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/shuffle_btn"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:drawableTop="@drawable/shuffle_icon"-->
+<!--                android:contentDescription="@string/shuffle_btn"-->
+<!--                style="@style/Widget.AppCompat.Button.Borderless"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/favrt_btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/video_name"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:drawableTop="@drawable/video_player"-->
+<!--                android:contentDescription="@string/video_name"-->
+<!--                style="@style/Widget.AppCompat.Button.Borderless"/>-->
+<!--            <Button-->
+<!--                android:id="@+id/folder_btn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="@string/folder_name"-->
+<!--                android:textColor="@color/black"-->
+<!--                android:textAllCaps="false"-->
+<!--                android:drawableTop="@drawable/folder_icon"-->
+<!--                android:contentDescription="@string/folder_name"-->
+<!--                style="@style/Widget.AppCompat.Button.Borderless"/>-->
+
+        </LinearLayout>
+
+<!--        <TextView-->
+<!--            android:id="@+id/totalSongs"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:text="@string/total_songs"-->
+<!--            android:layout_margin="10dp"/>-->
+
+
+    </LinearLayout>
+
+
+
+>>>>>>> AudioPlayer
 
 </androidx.constraintlayout.widget.ConstraintLayout>
