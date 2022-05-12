@@ -35,8 +35,8 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
     }
 
     @SuppressLint("Range")
-    fun getAllFolder(): ArrayList<Folder> {
-        val folderlist = ArrayList<Folder>()
+    fun getAllFolder(): ArrayList<Folders> {
+        val folderlist = ArrayList<Folders>()
         val db = writableDatabase
         val selectQuery = "SELECT * FROM $TABLE_NAME"
         Log.d("tabless",selectQuery)
@@ -47,7 +47,7 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
             if (cursor.moveToFirst()) {
                 do {
 
-                    val folders = Folder()
+                    val folders = Folders()
 
 //                    folders.id=
 //                        Integer.parseInt("1")
@@ -70,7 +70,7 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
     }
 
     //insert
-    fun addFolder(folders : Folder):Boolean{
+    fun addFolder(folders : Folders):Boolean{
         val db = this.writableDatabase
         val values =  ContentValues()
         values.put(FOLDER_NAME,folders.name) //we can add details by this
@@ -84,8 +84,8 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
 
     //select data of particular id
     @SuppressLint("Range")
-    fun getFolder(_id: Int) : Folder{
-        val folders = Folder()
+    fun getFolder(_id: Int) : Folders{
+        val folders = Folders()
 
         val db =  writableDatabase
 //        Log.d("")
@@ -119,7 +119,7 @@ class MyHelper(var context: Context) : SQLiteOpenHelper(context,DB_NAME,null, DB
 
     }
 
-    fun updateFolder(folders: Folder):Boolean{
+    fun updateFolder(folders: Folders):Boolean{
         val db= this.writableDatabase
         val values = ContentValues()
         values.put(FOLDER_NAME,folders.name)

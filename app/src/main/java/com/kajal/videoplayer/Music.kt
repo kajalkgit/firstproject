@@ -6,14 +6,14 @@ import java.util.concurrent.TimeUnit
 data class Music(val id: String, val title: String, val duration: Long=0, val album:String, val artist:String, val path:String,
                                    val artUri: String)
 
-class Folder  {
+class Folders  {
     var id:Int =0
      var name:String= ""
     //var folder: ArrayList<Music> =[ ]
 }
 
 class MediaPlaylist{
-    var ref: ArrayList<Folder> = ArrayList()
+    var ref: ArrayList<Folders> = ArrayList()
 }
 
 fun formatDuration(duration: Long):String{

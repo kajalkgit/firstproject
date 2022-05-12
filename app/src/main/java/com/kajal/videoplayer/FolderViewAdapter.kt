@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kajal.videoplayer.databinding.FoldersViewBinding
 
 
-class FolderViewAdapter(private var context: Context,private val folderList: ArrayList<Folder>)
+class FolderViewAdapter(private var context: Context,private val folderList: ArrayList<Folders>)
     :RecyclerView.Adapter<FolderViewAdapter.MyHolder>() {
 
 //    class MyHolder(view: View): RecyclerView.ViewHolder(view)
@@ -25,7 +25,7 @@ class FolderViewAdapter(private var context: Context,private val folderList: Arr
 
     class MyHolder(binding: FoldersViewBinding):RecyclerView.ViewHolder(binding.root)
     {
-        val name = binding.nameF
+        val name = binding.folderNameFV
         val edit = binding.editBtn
     }
 
@@ -42,7 +42,7 @@ class FolderViewAdapter(private var context: Context,private val folderList: Arr
 //        )
 
     }
-    override fun onBindViewHolder(holder: FolderViewAdapter.MyHolder, position: Int) { val folders = folderList[position]
+    override fun onBindViewHolder(holder: MyHolder, position: Int) { val folders = folderList[position]
         holder.name.text = folderList[position].name
 
         holder.name.isSelected = true

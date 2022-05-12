@@ -16,7 +16,7 @@ class FolderActivity : AppCompatActivity() {
 
     companion object{
         // var mediaPlaylist:MediaPlaylist = MediaPlaylist()
-        lateinit var folderList: ArrayList<Folder>
+        lateinit var folderList: ArrayList<Folders>
     }
 
 

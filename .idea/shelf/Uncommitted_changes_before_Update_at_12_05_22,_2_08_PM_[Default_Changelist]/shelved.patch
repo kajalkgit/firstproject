@@ -1,0 +1,635 @@
+Index: app/src/main/java/com/kajal/videoplayer/MainActivity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kajal.videoplayer\n\nimport android.annotation.SuppressLint\nimport android.content.Intent\nimport android.content.pm.PackageManager\nimport android.net.Uri\nimport android.os.Build\nimport android.os.Bundle\nimport android.provider.MediaStore\nimport android.util.Log\nimport android.widget.Toast\nimport androidx.annotation.RequiresApi\nimport androidx.appcompat.app.AppCompatActivity\nimport androidx.core.app.ActivityCompat\nimport androidx.fragment.app.Fragment\nimport java.io.File\nimport kotlin.system.exitProcess\nimport com.kajal.videoplayer.databinding.ActivityMainBinding as ActivityMainBinding1\n\nclass MainActivity : AppCompatActivity() {\n    private lateinit var binding: ActivityMainBinding1\n    private lateinit var musicAdapter: MusicAdapter\n  //  var folderViewAdapter : FolderViewAdapter ?= null\n\n    //db var use\n//    var dbHandler:MyHelper ?= null\n//    var folderList: List<Folder> = ArrayList<Folder>()\n//    lateinit var recycler_folder : RecyclerView\n//\n//    lateinit var btn_add : Button\n//\n//   var linearLayoutManager : LinearLayoutManager ?= null\n\n\n\n  // var helper = MyHelper(applicationContext)\n//    var db: SQLiteDatabase? = helper.readableDatabase\n\n    companion object { //static object\n        lateinit var MusicListMA: ArrayList<Music>\n       lateinit var folderList: ArrayList<Folder>\n    }\n\n    @RequiresApi(Build.VERSION_CODES.R)\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        // requestRuntimePermission()\n        setTheme(R.style.coolPinkNav)\n        binding = ActivityMainBinding1.inflate(layoutInflater)\n        setContentView(binding.root)\n\n\n\n        setFragment(AudioFragment())\n\n        // recycler_folder =findViewById(R.id.recycler_folder)\n        //  btn_add = findViewById(R.id.add_btn)\n\n\n        //  fetchlist()\n\n//        btn_add.setOnClickListener{\n//            val i = Intent(applicationContext,AddFolder::class.java)\n//            startActivity(i)\n//        }\n//\n//        dbHandler = MyHelper(this)\n        supportActionBar?.setDisplayHomeAsUpEnabled(true)\n\n\n        if (requestRuntimePermission())\n            initializeLayout()\n\n\n        binding.bottomNav.setOnItemSelectedListener {\n\n            when(it.itemId){\n                R.id.AudioView -> setFragment(AudioFragment())\n                R.id.ShuffleView -> setFragment(ShuffleFragment())\n            }\n            return@setOnItemSelectedListener true\n\n        }\n\n\n\n//        binding.shuffleBtn.setOnClickListener {\n//            val intent = Intent(this@MainActivity, PlayerActivity::class.java)\n//            intent.putExtra(\"index\",0)\n//            intent.putExtra(\"class\",\"MainActivity\")\n//            startActivity(intent)\n//        }\n//        binding.favrtBtn.setOnClickListener {\n//\n//\n//            startActivity(Intent(this@MainActivity, FavouriteActivity::class.java))\n//        }\n//\n//       binding.folderBtn.setOnClickListener {\n//\n//\n//            startActivity(Intent(this@MainActivity, FolderActivity::class.java))\n//        }\n\n\n    }\n\n    private fun setFragment(fragment: Fragment){\n        val transaction = supportFragmentManager.beginTransaction()\n        transaction.replace(R.id.fragmentFL,fragment)\n        transaction.disallowAddToBackStack() //to save space from different stack available in stack as we have to click thrice\n        transaction.commit()\n\n    }\n\n//    private fun fetchlist(){\n//        folderList = dbHandler!!.getAllFolder()\n//        folderViewAdapter = FolderViewAdapter(folderList,applicationContext)\n//        linearLayoutManager = LinearLayoutManager(applicationContext)\n//        recycler_folder.layoutManager = linearLayoutManager\n//        recycler_folder.adapter = folderViewAdapter\n//        folderViewAdapter?.notifyDataSetChanged()\n//    }\n\n\n    //for req permission\n    private fun requestRuntimePermission() :Boolean {\n        if (ActivityCompat.checkSelfPermission(\n                this,\n                android.Manifest.permission.WRITE_EXTERNAL_STORAGE\n            )\n            != PackageManager.PERMISSION_GRANTED\n        ) {\n            ActivityCompat.requestPermissions(\n                this,\n                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),\n                13)\n            return false\n        }\n        return true\n\n    }\n\n    @RequiresApi(Build.VERSION_CODES.R)\n    override fun onRequestPermissionsResult(\n        requestCode: Int,\n        permissions: Array<out String>,\n        grantResults: IntArray\n    ) {\n        super.onRequestPermissionsResult(\n            requestCode, permissions, grantResults\n        )\n        if (requestCode == 13) {\n            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {\n                Toast.makeText(this, \"Permission Granted\", Toast.LENGTH_SHORT).show()\n                initializeLayout()\n            }\n            else\n                ActivityCompat.requestPermissions(\n                    this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13)\n\n        }\n    }\n\n    @RequiresApi(Build.VERSION_CODES.R)\n    private fun initializeLayout() {\n\n        MusicListMA = getAllAudio()\n        binding.mediaRV.setHasFixedSize(true)\n        binding.mediaRV.setItemViewCacheSize(13)\n//        binding.mediaRV.layoutManager = LinearLayoutManager(this@MainActivity)\n//        musicAdapter = MusicAdapter(this@MainActivity, MusicListMA)\n//        binding.mediaRV.adapter = musicAdapter\n//        binding.totalSongs.text = \"Total Songs : \" + musicAdapter.itemCount\n//\n\n    }\n\n    @SuppressLint(\"Recycle\")\n    @RequiresApi(Build.VERSION_CODES.R)\n    private fun getAllAudio(): ArrayList<Music> {\n        val temList = ArrayList<Music>()\n        val tempFolderList = ArrayList<String>()\n        val temFolderList = ArrayList<String>()\n        val selection = MediaStore.Audio.Media.IS_MUSIC + \" !=0\"\n        val projection = arrayOf(\n            MediaStore.Audio.Media._ID,\n            MediaStore.Audio.Media.TITLE,\n            MediaStore.Audio.Media.ALBUM,\n            MediaStore.Audio.Media.ARTIST,\n            MediaStore.Audio.Media.DURATION,\n            MediaStore.Audio.Media.BUCKET_DISPLAY_NAME,\n            MediaStore.Audio.Media.BUCKET_ID,\n            MediaStore.Audio.Media.DATE_ADDED,\n            MediaStore.Audio.Media.DATA,\n            MediaStore.Audio.Media.ALBUM_ID\n        )\n\n\n\n        //use to pass only internal context of audio\n        val cursor = this.contentResolver.query(\n            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,\n            projection,\n            selection,\n            null,\n            MediaStore.Audio.Media.DEFAULT_SORT_ORDER,\n            null\n        )\n\n\n        Log.d(\"cursor\", cursor.toString());\n\n        if (cursor != null) {\n            if (cursor.moveToFirst())\n                do {\n                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))\n                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))\n                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))\n                    val artistsC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))\n                    val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))\n                    val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))\n                    val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()\n//                   // val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))\n//                   // val folderIdC = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID)))\n\n                   // )\n                    val uri = Uri.parse(\"content://media/external/audio/albumart\") //using glide with this\n                    val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()\n\n                    val music = Music(\n                        id = idC,\n                        title = titleC,\n                        album = albumC,\n                        artist = artistsC,\n                        path = pathC,\n                        duration = durationC,\n                        artUri = artUriC)\n\n                    val file = File(music.path)\n                    if (file.exists())\n                        temList.add(music)\n\n                } while (cursor.moveToNext())\n            cursor.close()\n        }\n\n        return temList\n\n    }\n\n    override fun onDestroy() {\n        super.onDestroy()\n        if (!PlayerActivity.isPlaying && PlayerActivity.musicService != null){\n            PlayerActivity.musicService!!.stopForeground(true)\n            PlayerActivity.musicService!!.mediaPlayer!!.release()\n            PlayerActivity.musicService = null\n            exitProcess(1)\n\n        }\n    }\n}\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/kajal/videoplayer/MainActivity.kt b/app/src/main/java/com/kajal/videoplayer/MainActivity.kt
+--- a/app/src/main/java/com/kajal/videoplayer/MainActivity.kt	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/java/com/kajal/videoplayer/MainActivity.kt	(date 1652336276962)
+@@ -8,6 +8,7 @@
+ import android.os.Bundle
+ import android.provider.MediaStore
+ import android.util.Log
++import android.view.View
+ import android.widget.Toast
+ import androidx.annotation.RequiresApi
+ import androidx.appcompat.app.AppCompatActivity
+@@ -46,7 +47,9 @@
+         super.onCreate(savedInstanceState)
+         // requestRuntimePermission()
+         setTheme(R.style.coolPinkNav)
++
+         binding = ActivityMainBinding1.inflate(layoutInflater)
++        binding.nowPlaying.visibility=View.GONE
+         setContentView(binding.root)
+ 
+ 
+@@ -73,7 +76,6 @@
+ 
+ 
+         binding.bottomNav.setOnItemSelectedListener {
+-
+             when(it.itemId){
+                 R.id.AudioView -> setFragment(AudioFragment())
+                 R.id.ShuffleView -> setFragment(ShuffleFragment())
+@@ -145,13 +147,12 @@
+     override fun onRequestPermissionsResult(
+         requestCode: Int,
+         permissions: Array<out String>,
+-        grantResults: IntArray
+-    ) {
+-        super.onRequestPermissionsResult(
+-            requestCode, permissions, grantResults
+-        )
+-        if (requestCode == 13) {
+-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
++        grantResults: IntArray) {
++        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
++        if (requestCode == 13)
++        {
++            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
++            {
+                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                 initializeLayout()
+             }
+@@ -249,8 +250,14 @@
+ 
+     }
+ 
++    override fun onResume() {
++        super.onResume()
++        binding.nowPlaying.visibility=View.VISIBLE
++    }
++
+     override fun onDestroy() {
+         super.onDestroy()
++
+         if (!PlayerActivity.isPlaying && PlayerActivity.musicService != null){
+             PlayerActivity.musicService!!.stopForeground(true)
+             PlayerActivity.musicService!!.mediaPlayer!!.release()
+Index: app/src/main/res/drawable/previous_icon.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><vector xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    android:width=\"30dp\"\n    android:height=\"30dp\"\n    android:viewportWidth=\"24\"\n    android:viewportHeight=\"24\"\n    android:tint=\"?attr/colorControlNormal\"\n    android:autoMirrored=\"true\">\n  <path\n      android:fillColor=\"@android:color/white\"\n      android:pathData=\"M11.67,3.87L9.9,2.1 0,12l9.9,9.9 1.77,-1.77L3.54,12z\"/>\n</vector>\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/previous_icon.xml b/app/src/main/res/drawable/previous_icon.xml
+--- a/app/src/main/res/drawable/previous_icon.xml	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/res/drawable/previous_icon.xml	(date 1652271861842)
+@@ -4,7 +4,7 @@
+     android:viewportWidth="24"
+     android:viewportHeight="24"
+     android:tint="?attr/colorControlNormal"
+-    android:autoMirrored="true">
++    >
+   <path
+       android:fillColor="@android:color/white"
+       android:pathData="M11.67,3.87L9.9,2.1 0,12l9.9,9.9 1.77,-1.77L3.54,12z"/>
+Index: app/src/main/res/layout/fragment_folder.xml
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_folder.xml b/app/src/main/res/layout/fragment_folder.xml
+deleted file mode 100644
+--- a/app/src/main/res/layout/fragment_folder.xml	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ /dev/null	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
+@@ -1,25 +0,0 @@
+-<?xml version="1.0" encoding="utf-8"?>
+-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+-    xmlns:tools="http://schemas.android.com/tools"
+-    android:layout_width="match_parent"
+-    android:layout_height="match_parent"
+-    tools:context=".FolderFragment"
+-    android:orientation="vertical">
+-
+-
+-    <TextView
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content"
+-        android:text="@string/name_folders"
+-        android:textColor="@color/black"
+-        android:layout_margin="10dp"/>
+-
+-    <androidx.recyclerview.widget.RecyclerView
+-        android:id="@+id/FolderRV"
+-        android:layout_width="match_parent"
+-        android:layout_height="wrap_content" />
+-<!--        android:scrollbar="vertical"-->
+-<!--        android:scrollbarThumbVertical="@sc"-->
+-
+-
+-</androidx.appcompat.widget.LinearLayoutCompat>
+\ No newline at end of file
+Index: app/src/main/java/com/kajal/videoplayer/NowPlaying.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kajal.videoplayer\n\nimport android.content.Intent\nimport android.os.Bundle\nimport android.view.LayoutInflater\nimport android.view.View\nimport android.view.ViewGroup\nimport androidx.core.content.ContextCompat\nimport androidx.fragment.app.Fragment\nimport com.bumptech.glide.Glide\nimport com.bumptech.glide.request.RequestOptions\nimport com.kajal.videoplayer.databinding.FragmentNowPlayingBinding\n\n\nclass NowPlaying : Fragment() {\n   companion object{\n       lateinit var binding: FragmentNowPlayingBinding\n   }\n\n    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {\n        val view = inflater.inflate(R.layout.fragment_now_playing,container,false)\n        binding = FragmentNowPlayingBinding.bind(view)\n        binding.root.visibility =View.INVISIBLE\n\n        binding.playPauseBtnNP.setOnClickListener {\n            if (PlayerActivity.isPlaying) pauseMusic() else playMusic()\n        }\n        binding.nextBtnNP.setOnClickListener{\n            setSongPosition(increment = true)\n            PlayerActivity.musicService!!.createMediaPlayer()\n\n            //setting glide for now playing to change with notification\n            Glide.with(this)\n                .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)\n                .apply(RequestOptions().placeholder(R.drawable.musicplayericon).centerCrop())\n                .into(binding.songImageNP)\n            binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title\n\n            PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)\n            playMusic()\n        }\n\n        binding.root.setOnClickListener {\n            val intent = Intent(requireContext(),PlayerActivity::class.java)\n            intent.putExtra(\"index\",PlayerActivity.songPosition)\n            intent.putExtra(\"class\",\"NowPlaying\")\n            ContextCompat.startActivity(requireContext(),intent,null)\n\n        }\n        return view\n    }\n\n    override fun onResume() {\n        super.onResume()\n        if (PlayerActivity.musicService != null){\n            binding.root.visibility = View.VISIBLE\n            binding.songNameNP.isSelected = true //to move tittle\n\n            Glide.with(this)\n                .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)\n                .apply(RequestOptions().placeholder(R.drawable.musicplayericon).centerCrop())\n                .into(binding.songImageNP)\n            binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title\n\n           //play and pause button condition\n            if(PlayerActivity.isPlaying) binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)\n            else\n                binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)\n\n        }\n    }\n\n    //play pause functionality\n    private fun playMusic(){\n        PlayerActivity.musicService!!.mediaPlayer!!.start()\n        binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)\n        PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)\n        PlayerActivity.binding.nextBtnPA.setIconResource(R.drawable.pause_icon)\n        PlayerActivity.isPlaying= true\n    }\n    private fun pauseMusic(){\n        PlayerActivity.musicService!!.mediaPlayer!!.pause()\n        binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)\n        PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)\n        PlayerActivity.binding.nextBtnPA.setIconResource(R.drawable.play_icon)\n        PlayerActivity.isPlaying= false\n    }\n\n\n\n\n}\n\n\n\n\n\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/kajal/videoplayer/NowPlaying.kt b/app/src/main/java/com/kajal/videoplayer/NowPlaying.kt
+--- a/app/src/main/java/com/kajal/videoplayer/NowPlaying.kt	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/java/com/kajal/videoplayer/NowPlaying.kt	(date 1652268085497)
+@@ -13,19 +13,23 @@
+ 
+ 
+ class NowPlaying : Fragment() {
+-   companion object{
+-       lateinit var binding: FragmentNowPlayingBinding
+-   }
++    companion object {
++        lateinit var binding: FragmentNowPlayingBinding
++    }
+ 
+-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+-        val view = inflater.inflate(R.layout.fragment_now_playing,container,false)
++    override fun onCreateView(
++        inflater: LayoutInflater,
++        container: ViewGroup?,
++        savedInstanceState: Bundle?
++    ): View? {
++        val view = inflater.inflate(R.layout.fragment_now_playing, container, false)
+         binding = FragmentNowPlayingBinding.bind(view)
+-        binding.root.visibility =View.INVISIBLE
+-
++        binding.root.visibility =View.GONE
++        binding.llMusicBar.visibility = View.VISIBLE
+         binding.playPauseBtnNP.setOnClickListener {
+             if (PlayerActivity.isPlaying) pauseMusic() else playMusic()
+         }
+-        binding.nextBtnNP.setOnClickListener{
++        binding.nextBtnNP.setOnClickListener {
+             setSongPosition(increment = true)
+             PlayerActivity.musicService!!.createMediaPlayer()
+ 
+@@ -41,10 +45,10 @@
+         }
+ 
+         binding.root.setOnClickListener {
+-            val intent = Intent(requireContext(),PlayerActivity::class.java)
+-            intent.putExtra("index",PlayerActivity.songPosition)
+-            intent.putExtra("class","NowPlaying")
+-            ContextCompat.startActivity(requireContext(),intent,null)
++            val intent = Intent(requireContext(), PlayerActivity::class.java)
++            intent.putExtra("index", PlayerActivity.songPosition)
++            intent.putExtra("class", "NowPlaying")
++            ContextCompat.startActivity(requireContext(), intent, null)
+ 
+         }
+         return view
+@@ -52,7 +56,7 @@
+ 
+     override fun onResume() {
+         super.onResume()
+-        if (PlayerActivity.musicService != null){
++        if (PlayerActivity.musicService != null) {
+             binding.root.visibility = View.VISIBLE
+             binding.songNameNP.isSelected = true //to move tittle
+ 
+@@ -62,8 +66,8 @@
+                 .into(binding.songImageNP)
+             binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title
+ 
+-           //play and pause button condition
+-            if(PlayerActivity.isPlaying) binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
++            //play and pause button condition
++            if (PlayerActivity.isPlaying) binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
+             else
+                 binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
+ 
+@@ -71,24 +75,23 @@
+     }
+ 
+     //play pause functionality
+-    private fun playMusic(){
++    private fun playMusic() {
+         PlayerActivity.musicService!!.mediaPlayer!!.start()
+         binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
+         PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
+         PlayerActivity.binding.nextBtnPA.setIconResource(R.drawable.pause_icon)
+-        PlayerActivity.isPlaying= true
++        PlayerActivity.isPlaying = true
+     }
+-    private fun pauseMusic(){
++
++    private fun pauseMusic() {
+         PlayerActivity.musicService!!.mediaPlayer!!.pause()
+         binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
+         PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)
+         PlayerActivity.binding.nextBtnPA.setIconResource(R.drawable.play_icon)
+-        PlayerActivity.isPlaying= false
++        PlayerActivity.isPlaying = false
+     }
+ 
+ 
+-
+-
+ }
+ 
+ 
+Index: app/src/main/res/drawable/prev_icon.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/drawable/prev_icon.xml b/app/src/main/res/drawable/prev_icon.xml
+new file mode 100644
+--- /dev/null	(date 1652271973609)
++++ b/app/src/main/res/drawable/prev_icon.xml	(date 1652271973609)
+@@ -0,0 +1,10 @@
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="30dp"
++    android:height="30dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24"
++    android:tint="?attr/colorControlNormal">
++  <path
++      android:fillColor="@android:color/white"
++      android:pathData="M15.41,7.41L14,6l-6,6 6,6 1.41,-1.41L10.83,12z"/>
++</vector>
+Index: app/src/main/res/layout/fragment_now_playing.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<RelativeLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"50dp\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    tools:context=\".NowPlaying\"\n    android:background=\"@color/cool_pink\">\n\n    <!-- TODO: Update blank fragment layout -->\n\n    <com.google.android.material.imageview.ShapeableImageView\n        android:id=\"@+id/songImageNP\"\n        android:layout_width=\"70dp\"\n        android:layout_height=\"50dp\"\n        android:layout_marginHorizontal=\"10dp\"\n        android:layout_marginVertical=\"5dp\"\n        app:shapeAppearanceOverlay=\"@style/curved\"\n        android:src=\"@drawable/musicplayericon\"/>\n\n    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton\n        android:id=\"@+id/nextBtnNP\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_alignParentEnd=\"true\"\n        app:icon=\"@drawable/next_icon\"\n        app:iconTint=\"@color/white\"\n        android:backgroundTint=\"@color/cool_pink\"\n        android:layout_centerVertical=\"true\"\n        app:iconSize=\"30dp\"\n        android:layout_marginEnd=\"10dp\"/>\n\n    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton\n        android:id=\"@+id/playPauseBtnNP\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_alignParentEnd=\"true\"\n        android:layout_marginEnd=\"73dp\"\n        android:backgroundTint=\"@color/cool_pink\"\n        app:icon=\"@drawable/play_icon\"\n        app:iconSize=\"30dp\"\n        app:iconTint=\"@color/white\"\n        android:layout_toStartOf=\"@id/nextBtnNP\"\n        android:layout_marginHorizontal=\"5dp\"/>\n    <TextView\n        android:id=\"@+id/songNameNP\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"60dp\"\n        android:text=\"@string/song_name\"\n        android:textColor=\"@color/white\"\n        android:textStyle=\"bold\"\n        android:textSize=\"18sp\"\n        android:gravity=\"center\"\n        android:layout_toStartOf=\"@id/playPauseBtnNP\"\n        android:layout_toEndOf=\"@id/songImageNP\"\n        android:ellipsize=\"marquee\"\n        android:marqueeRepeatLimit=\"marquee_forever\"\n        android:singleLine=\"true\"\n        />\n\n</RelativeLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_now_playing.xml b/app/src/main/res/layout/fragment_now_playing.xml
+--- a/app/src/main/res/layout/fragment_now_playing.xml	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/res/layout/fragment_now_playing.xml	(date 1652267186983)
+@@ -1,61 +1,71 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="50dp"
+-    xmlns:app="http://schemas.android.com/apk/res-auto"
+-    tools:context=".NowPlaying"
+-    android:background="@color/cool_pink">
++    tools:context=".NowPlaying">
+ 
+     <!-- TODO: Update blank fragment layout -->
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="match_parent"
++        android:background="@color/cool_pink"
++        android:id="@+id/ll_music_bar"
++        android:orientation="horizontal">
++
++        <RelativeLayout
++            android:layout_width="match_parent"
++            android:layout_height="match_parent">
+ 
+-    <com.google.android.material.imageview.ShapeableImageView
+-        android:id="@+id/songImageNP"
+-        android:layout_width="70dp"
+-        android:layout_height="50dp"
+-        android:layout_marginHorizontal="10dp"
+-        android:layout_marginVertical="5dp"
+-        app:shapeAppearanceOverlay="@style/curved"
+-        android:src="@drawable/musicplayericon"/>
++            <com.google.android.material.imageview.ShapeableImageView
++                android:id="@+id/songImageNP"
++                android:layout_width="70dp"
++                android:layout_height="50dp"
++                android:layout_marginHorizontal="10dp"
++                android:layout_marginVertical="5dp"
++                android:src="@drawable/musicplayericon"
++                app:shapeAppearanceOverlay="@style/curved" />
+ 
+-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+-        android:id="@+id/nextBtnNP"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_alignParentEnd="true"
+-        app:icon="@drawable/next_icon"
+-        app:iconTint="@color/white"
+-        android:backgroundTint="@color/cool_pink"
+-        android:layout_centerVertical="true"
+-        app:iconSize="30dp"
+-        android:layout_marginEnd="10dp"/>
++            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
++                android:id="@+id/nextBtnNP"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_alignParentEnd="true"
++                android:layout_centerVertical="true"
++                android:layout_marginEnd="10dp"
++                android:backgroundTint="@color/cool_pink"
++                app:icon="@drawable/next_icon"
++                app:iconSize="30dp"
++                app:iconTint="@color/white" />
+ 
+-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+-        android:id="@+id/playPauseBtnNP"
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_alignParentEnd="true"
+-        android:layout_marginEnd="73dp"
+-        android:backgroundTint="@color/cool_pink"
+-        app:icon="@drawable/play_icon"
+-        app:iconSize="30dp"
+-        app:iconTint="@color/white"
+-        android:layout_toStartOf="@id/nextBtnNP"
+-        android:layout_marginHorizontal="5dp"/>
+-    <TextView
+-        android:id="@+id/songNameNP"
+-        android:layout_width="match_parent"
+-        android:layout_height="60dp"
+-        android:text="@string/song_name"
+-        android:textColor="@color/white"
+-        android:textStyle="bold"
+-        android:textSize="18sp"
+-        android:gravity="center"
+-        android:layout_toStartOf="@id/playPauseBtnNP"
+-        android:layout_toEndOf="@id/songImageNP"
+-        android:ellipsize="marquee"
+-        android:marqueeRepeatLimit="marquee_forever"
+-        android:singleLine="true"
+-        />
+-
++            <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
++                android:id="@+id/playPauseBtnNP"
++                android:layout_width="wrap_content"
++                android:layout_height="wrap_content"
++                android:layout_alignParentEnd="true"
++                android:layout_marginHorizontal="5dp"
++                android:layout_marginEnd="73dp"
++                android:layout_toStartOf="@id/nextBtnNP"
++                android:backgroundTint="@color/cool_pink"
++                app:icon="@drawable/play_icon"
++                app:iconSize="30dp"
++                app:iconTint="@color/white" />
++
++            <TextView
++                android:id="@+id/songNameNP"
++                android:layout_width="match_parent"
++                android:layout_height="60dp"
++                android:layout_toStartOf="@id/playPauseBtnNP"
++                android:layout_toEndOf="@id/songImageNP"
++                android:ellipsize="marquee"
++                android:gravity="center"
++                android:marqueeRepeatLimit="marquee_forever"
++                android:singleLine="true"
++                android:text="@string/song_name"
++                android:textColor="@color/white"
++                android:textSize="18sp"
++                android:textStyle="bold" />
++        </RelativeLayout>
++    </LinearLayout>
+ </RelativeLayout>
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_player.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".PlayerActivity\"\n    android:orientation=\"vertical\">\n\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:orientation=\"horizontal\"\n        android:gravity=\"center\"\n        android:layout_weight=\"1\">\n\n       <ImageButton\n           android:id=\"@+id/backBtnPA\"\n           android:layout_width=\"wrap_content\"\n           android:layout_height=\"40dp\"\n           android:layout_marginStart=\"5dp\"\n           android:src=\"@drawable/back_icon\"\n           android:tint=\"@color/black\"\n           android:contentDescription=\"@string/back_btn\"\n           android:background=\"@android:color/transparent\"/>\n\n        <TextView\n            android:layout_width=\"0dp\"\n            android:layout_height=\"match_parent\"\n            android:textColor=\"@color/black\"\n            android:text=\"@string/world_of_music\"\n            android:textSize=\"20sp\"\n            android:textAlignment=\"center\"\n            android:layout_gravity=\"center\"\n            android:layout_weight=\"1\"/>\n\n        <ImageButton\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            android:layout_marginEnd=\"5dp\"\n            android:background=\"@android:color/transparent\"\n            android:src=\"@drawable/favborder_icon\"\n            android:contentDescription=\"@string/fvrt_btn\"\n            android:tint=\"@android:color/holo_red_dark\" />\n\n\n    </LinearLayout>\n\n    <com.google.android.material.imageview.ShapeableImageView\n        android:id=\"@+id/songImgPA\"\n        android:layout_width=\"250dp\"\n        android:layout_height=\"250dp\"\n        android:layout_margin=\"10dp\"\n        android:layout_gravity=\"center\"\n        android:src=\"@drawable/musicplayericon\"\n        app:shapeAppearance=\"@style/curved\"\n        app:strokeColor=\"@color/purple_200\"\n        />\n\n    <!-- cureent song name-->\n    <TextView\n        android:id=\"@+id/songNamePA\"\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginHorizontal=\"20dp\"\n        android:text=\"@string/song_name\"\n        android:textSize=\"18sp\"\n        android:textColor=\"@color/black\"\n        android:textAlignment=\"center\"\n        android:layout_weight=\"1\"\n\n\n        />\n\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"wrap_content\"\n        android:orientation=\"horizontal\"\n        android:layout_margin=\"10dp\"\n        android:gravity=\"center\"\n        android:layout_weight=\"1\">\n\n        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton\n            android:id=\"@+id/previousBtnPA\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n        app:icon=\"@drawable/previous_icon\"\n            app:iconSize=\"40dp\"\n            android:layout_marginHorizontal=\"25dp\"/>\n\n\n        <!--- pause button-->\n        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton\n            android:id=\"@+id/playpauseBtnPA\"\n            android:layout_width=\"40dp\"\n            android:layout_height=\"40dp\"\n            app:icon=\"@drawable/pause_icon\"\n            app:iconSize=\"50dp\"\n            android:layout_marginHorizontal=\"25dp\"\n            app:shapeAppearanceOverlay=\"@style/curved\"\n            android:backgroundTint=\"@android:color/holo_red_light\"/>\n\n        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton\n            android:id=\"@+id/nextBtnPA\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"wrap_content\"\n            app:icon=\"@drawable/next_icon\"\n            app:iconSize=\"40dp\"\n            android:layout_marginHorizontal=\"25dp\"/>\n\n\n\n    </LinearLayout>\n\n    <LinearLayout\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"25dp\"\n        android:orientation=\"horizontal\"\n        android:layout_weight=\"1\">\n\n        <TextView\n            android:id=\"@+id/tvSeekBarStarting\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"match_parent\"\n            android:gravity=\"center\"\n            android:textColor=\"@color/black\"\n            android:textSize=\"15sp\"\n            android:text=\"@string/start_tv\" />\n\n        <androidx.appcompat.widget.AppCompatSeekBar\n          android:id=\"@+id/seekbarPA\"\n            android:layout_width=\"0dp\"\n            android:layout_gravity=\"center\"\n            android:layout_height=\"match_parent\"\n            android:layout_weight=\"1\"\n            />\n\n        <TextView\n            android:id=\"@+id/tvSeekBarEnd\"\n            android:layout_width=\"wrap_content\"\n            android:layout_height=\"match_parent\"\n            android:textColor=\"@color/black\"\n            android:gravity=\"center\"\n            android:textSize=\"15sp\"\n            android:text=\"@string/end_tv\" />\n\n\n    </LinearLayout>\n\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/activity_player.xml b/app/src/main/res/layout/activity_player.xml
+--- a/app/src/main/res/layout/activity_player.xml	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/res/layout/activity_player.xml	(date 1652272025206)
+@@ -84,7 +84,7 @@
+             android:id="@+id/previousBtnPA"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+-        app:icon="@drawable/previous_icon"
++        app:icon="@drawable/prev_icon"
+             app:iconSize="40dp"
+             android:layout_marginHorizontal="25dp"/>
+ 
+Index: app/src/main/java/com/kajal/videoplayer/NotificationReceiver.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.kajal.videoplayer\n\nimport android.content.BroadcastReceiver\nimport android.content.Context\nimport android.content.Intent\nimport com.bumptech.glide.Glide\nimport com.bumptech.glide.request.RequestOptions\nimport kotlin.system.exitProcess\n\nclass NotificationReceiver :BroadcastReceiver(){\n    override fun onReceive(context: Context?, intent: Intent?) {\n        when(intent?.action){\n            ApplicationClass.PREVIOUS -> prevNextSong(increment = false,context=context!!)\n            ApplicationClass.PLAY -> if (PlayerActivity.isPlaying) pauseMusic() else playMusic()\n            ApplicationClass.NEXT -> prevNextSong(increment = true,context=context!!)\n            ApplicationClass.EXIT -> {\n\n                PlayerActivity.musicService!!.stopForeground(true)\n                PlayerActivity.musicService!!.mediaPlayer!!.release()\n                PlayerActivity.musicService = null\n                exitProcess(1)\n            }\n        }\n    }\n\n    private fun playMusic() {\n\n        PlayerActivity.isPlaying = true\n        PlayerActivity.musicService!!.mediaPlayer!!.start()\n        PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)\n        PlayerActivity.binding.playpauseBtnPA.setIconResource(R.drawable.pause_icon)\n\n        NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)\n\n\n    }\n\n    private fun pauseMusic() {\n\n        PlayerActivity.isPlaying = false\n        PlayerActivity.musicService!!.mediaPlayer!!.pause()\n        PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)\n        PlayerActivity.binding.playpauseBtnPA.setIconResource(R.drawable.play_icon)\n\n        NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)\n    }\n\n    private fun prevNextSong(increment: Boolean,context: Context){\n        setSongPosition(increment = increment)\n        PlayerActivity.musicService!!.createMediaPlayer()\n\n\n        Glide.with(context)\n            .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)\n            .apply(RequestOptions().placeholder(R.drawable.musicplayericon).centerCrop())\n            .into(PlayerActivity.binding.songImgPA)\n        PlayerActivity.binding.songNamePA.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title\n\n        //setting glide for now playing to change with notification\n        Glide.with(context)\n            .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)\n            .apply(RequestOptions().placeholder(R.drawable.musicplayericon).centerCrop())\n            .into(NowPlaying.binding.songImageNP)\n        NowPlaying.binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title\n\n      playMusic()\n\n\n    }\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/java/com/kajal/videoplayer/NotificationReceiver.kt b/app/src/main/java/com/kajal/videoplayer/NotificationReceiver.kt
+--- a/app/src/main/java/com/kajal/videoplayer/NotificationReceiver.kt	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/java/com/kajal/videoplayer/NotificationReceiver.kt	(date 1652265871754)
+@@ -8,7 +8,9 @@
+ import kotlin.system.exitProcess
+ 
+ class NotificationReceiver :BroadcastReceiver(){
++
+     override fun onReceive(context: Context?, intent: Intent?) {
++
+         when(intent?.action){
+             ApplicationClass.PREVIOUS -> prevNextSong(increment = false,context=context!!)
+             ApplicationClass.PLAY -> if (PlayerActivity.isPlaying) pauseMusic() else playMusic()
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DesignSurface\">\n    <option name=\"filePathToZoomLevelMap\">\n      <map>\n        <entry key=\"app/src/main/res/drawable-v24/video_player.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/add_icon.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/back_icon.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/delete_icon.xml\" value=\"0.2325\" />\n        <entry key=\"app/src/main/res/drawable/exit_icon.xml\" value=\"0.2325\" />\n        <entry key=\"app/src/main/res/drawable/favorite_icon.xml\" value=\"0.169\" />\n        <entry key=\"app/src/main/res/drawable/folder_icon.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/music_icon.xml\" value=\"0.2325\" />\n        <entry key=\"app/src/main/res/drawable/next_icon.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/pause_icon.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/play_icon.xml\" value=\"0.2325\" />\n        <entry key=\"app/src/main/res/drawable/playlist_icon.xml\" value=\"0.169\" />\n        <entry key=\"app/src/main/res/drawable/previous_icon.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/drawable/shuffle_icon.xml\" value=\"0.169\" />\n        <entry key=\"app/src/main/res/drawable/splash_screen.xml\" value=\"0.142\" />\n        <entry key=\"app/src/main/res/layout/activity_audio.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_favourite.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_folder.xml\" value=\"0.22592592592592592\" />\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.22\" />\n        <entry key=\"app/src/main/res/layout/activity_player.xml\" value=\"0.22\" />\n        <entry key=\"app/src/main/res/layout/activity_playlist.xml\" value=\"0.16875\" />\n        <entry key=\"app/src/main/res/layout/add_folder_dialog.xml\" value=\"0.21646341463414634\" />\n        <entry key=\"app/src/main/res/layout/add_playlist_dialog.xml\" value=\"0.22\" />\n        <entry key=\"app/src/main/res/layout/folders_view.xml\" value=\"0.20535714285714285\" />\n        <entry key=\"app/src/main/res/layout/fragment_add_folder.xml\" value=\"0.23859649122807017\" />\n        <entry key=\"app/src/main/res/layout/fragment_audio.xml\" value=\"0.33\" />\n        <entry key=\"app/src/main/res/layout/fragment_folder.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/fragment_media.xml\" value=\"0.287962962962963\" />\n        <entry key=\"app/src/main/res/layout/fragment_now_playing.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/fragment_shuffle.xml\" value=\"0.18802083333333333\" />\n        <entry key=\"app/src/main/res/layout/fragment_video.xml\" value=\"0.20092592592592592\" />\n        <entry key=\"app/src/main/res/layout/music_view.xml\" value=\"0.33\" />\n        <entry key=\"app/src/main/res/menu/bottom_nav.xml\" value=\"0.33\" />\n        <entry key=\"app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/mipmap-anydpi-v26/music_player_icon.xml\" value=\"0.229\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"Android Studio default JDK\" project-jdk-type=\"JavaSDK\">\n    <output url=\"file://$PROJECT_DIR$/build/classes\" />\n  </component>\n  <component name=\"ProjectType\">\n    <option name=\"id\" value=\"Android\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/.idea/misc.xml	(date 1652333210101)
+@@ -15,14 +15,15 @@
+         <entry key="app/src/main/res/drawable/pause_icon.xml" value="0.1" />
+         <entry key="app/src/main/res/drawable/play_icon.xml" value="0.2325" />
+         <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.169" />
++        <entry key="app/src/main/res/drawable/prev_icon.xml" value="0.1245" />
+         <entry key="app/src/main/res/drawable/previous_icon.xml" value="0.1" />
+         <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.169" />
+         <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.142" />
+         <entry key="app/src/main/res/layout/activity_audio.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/activity_folder.xml" value="0.22592592592592592" />
+-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22" />
+-        <entry key="app/src/main/res/layout/activity_player.xml" value="0.22" />
++        <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
++        <entry key="app/src/main/res/layout/activity_player.xml" value="0.5" />
+         <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.16875" />
+         <entry key="app/src/main/res/layout/add_folder_dialog.xml" value="0.21646341463414634" />
+         <entry key="app/src/main/res/layout/add_playlist_dialog.xml" value="0.22" />
+@@ -30,8 +31,9 @@
+         <entry key="app/src/main/res/layout/fragment_add_folder.xml" value="0.23859649122807017" />
+         <entry key="app/src/main/res/layout/fragment_audio.xml" value="0.33" />
+         <entry key="app/src/main/res/layout/fragment_folder.xml" value="0.1" />
++        <entry key="app/src/main/res/layout/fragment_folder2.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/fragment_media.xml" value="0.287962962962963" />
+-        <entry key="app/src/main/res/layout/fragment_now_playing.xml" value="0.1" />
++        <entry key="app/src/main/res/layout/fragment_now_playing.xml" value="0.33" />
+         <entry key="app/src/main/res/layout/fragment_shuffle.xml" value="0.18802083333333333" />
+         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.20092592592592592" />
+         <entry key="app/src/main/res/layout/music_view.xml" value="0.33" />
+Index: app/src/main/res/layout/fragment_shuffle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.appcompat.widget.LinearLayoutCompat xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    android:orientation=\"vertical\"\n    tools:context=\".ShuffleFragment\">\n\n    <!-- TODO: Update blank fragment layout -->\n    <TextView\n        android:layout_width=\"match_parent\"\n        android:layout_height=\"match_parent\"\n        android:text=\"Shuffle  : \"\n        android:textColor=\"@color/black\"\n        android:layout_margin=\"10dp\"\n        />\n\n</androidx.appcompat.widget.LinearLayoutCompat>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/app/src/main/res/layout/fragment_shuffle.xml b/app/src/main/res/layout/fragment_shuffle.xml
+--- a/app/src/main/res/layout/fragment_shuffle.xml	(revision c1392cdc58e816dc34aec123970ded9dfa93bfe1)
++++ b/app/src/main/res/layout/fragment_shuffle.xml	(date 1652271672479)
+@@ -1,18 +1,151 @@
+ <?xml version="1.0" encoding="utf-8"?>
+-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+-    android:orientation="vertical"
+-    tools:context=".ShuffleFragment">
++    tools:context=".PlayerActivity"
++    android:orientation="vertical">
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        android:gravity="center"
++        android:layout_weight="1">
++
++        <ImageButton
++            android:id="@+id/backBtnPA"
++            android:layout_width="wrap_content"
++            android:layout_height="40dp"
++            android:layout_marginStart="5dp"
++            android:src="@drawable/back_icon"
++            android:tint="@color/black"
++            android:contentDescription="@string/back_btn"
++            android:background="@android:color/transparent"/>
++
++        <TextView
++            android:layout_width="wrap_content"
++            android:layout_height="match_parent"
++            android:textColor="@color/black"
++            android:text="@string/world_of_music"
++            android:textSize="20sp"
++            android:textAlignment="center"
++            android:layout_marginTop="13dp"
++            android:layout_gravity="center"
++            android:layout_weight="1"/>
++
++        <ImageButton
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            android:layout_marginEnd="5dp"
++            android:background="@android:color/transparent"
++            android:src="@drawable/favborder_icon"
++            android:contentDescription="@string/fvrt_btn"
++            android:tint="@android:color/holo_red_dark" />
++
++
++    </LinearLayout>
+ 
+-    <!-- TODO: Update blank fragment layout -->
++    <com.google.android.material.imageview.ShapeableImageView
++        android:id="@+id/songImgPA"
++        android:layout_width="250dp"
++        android:layout_height="250dp"
++        android:layout_margin="10dp"
++        android:layout_gravity="center"
++        android:src="@drawable/musicplayericon"
++        app:shapeAppearance="@style/curved"
++        app:strokeColor="@color/purple_200"
++        />
++
++    <!-- cureent song name-->
+     <TextView
++        android:id="@+id/songNamePA"
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_marginHorizontal="20dp"
++        android:text="@string/song_name"
++        android:textSize="18sp"
++        android:textColor="@color/black"
++        android:textAlignment="center"
++        android:layout_weight="1"
++
++
++        />
++
++    <LinearLayout
+         android:layout_width="match_parent"
+-        android:layout_height="match_parent"
+-        android:text="Shuffle  : "
+-        android:textColor="@color/black"
+-        android:layout_margin="10dp"
+-        />
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        android:layout_margin="10dp"
++        android:gravity="center"
++        android:layout_weight="1">
++
++        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
++            android:id="@+id/previousBtnPA"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            app:icon="@drawable/previous_icon"
++            app:iconSize="40dp"
++            android:layout_marginHorizontal="25dp"/>
++
++
++        <!--- pause button-->
++        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
++            android:id="@+id/playpauseBtnPA"
++            android:layout_width="40dp"
++            android:layout_height="40dp"
++            app:icon="@drawable/pause_icon"
++            app:iconSize="50dp"
++            android:layout_marginHorizontal="25dp"
++            app:shapeAppearanceOverlay="@style/curved"
++            android:backgroundTint="@android:color/holo_red_light"/>
++
++        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
++            android:id="@+id/nextBtnPA"
++            android:layout_width="wrap_content"
++            android:layout_height="wrap_content"
++            app:icon="@drawable/next_icon"
++            app:iconSize="40dp"
++            android:layout_marginHorizontal="25dp"/>
++
++
++
++    </LinearLayout>
++
++    <LinearLayout
++        android:layout_width="match_parent"
++        android:layout_height="25dp"
++        android:orientation="horizontal"
++        android:layout_weight="1">
++
++        <TextView
++            android:id="@+id/tvSeekBarStarting"
++            android:layout_width="wrap_content"
++            android:layout_height="match_parent"
++            android:gravity="center"
++            android:textColor="@color/black"
++            android:textSize="15sp"
++            android:text="@string/start_tv" />
++
++        <androidx.appcompat.widget.AppCompatSeekBar
++            android:id="@+id/seekbarPA"
++            android:layout_width="0dp"
++            android:layout_gravity="center"
++            android:layout_height="match_parent"
++            android:layout_weight="1"
++            />
+ 
+-</androidx.appcompat.widget.LinearLayoutCompat>
+\ No newline at end of file
++        <TextView
++            android:id="@+id/tvSeekBarEnd"
++            android:layout_width="wrap_content"
++            android:layout_height="match_parent"
++            android:textColor="@color/black"
++            android:gravity="center"
++            android:textSize="15sp"
++            android:text="@string/end_tv" />
++
++
++    </LinearLayout>
++
++</LinearLayout>
+\ No newline at end of file

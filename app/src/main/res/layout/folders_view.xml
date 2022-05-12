@@ -18,24 +18,11 @@
         android:tint="@color/cool_pink"/>
 
 
-        <TextView
-            android:id="@+id/folderNameFV"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textColor="@color/black"
-            android:text="@string/folder_name"
-            android:textSize="18sp"
-            android:gravity="center_vertical"
-            android:layout_marginHorizontal="5dp"/>
-
-    </LinearLayout>
     <TextView
-        android:id="@+id/nameF"
-        android:layout_width="145dp"
-        android:layout_height="65dp"
+        android:id="@+id/folderNameFV"
+        android:layout_width="136dp"
+        android:layout_height="match_parent"
         android:layout_marginHorizontal="5dp"
-
-
         android:gravity="center_vertical"
         android:text="@string/folder_name"
         android:textColor="@color/black"
@@ -44,11 +31,14 @@
 
 
 
+
+
+
     <Button
         android:id="@+id/edit_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="92dp"
         android:backgroundTint="@color/white"
         android:text="edit"
         android:textColor="@color/black"

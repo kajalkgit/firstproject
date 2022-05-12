@@ -35,7 +35,7 @@ class AddFolder : AppCompatActivity() {
             saveFolder.text = "Update Data"
             dlt_btn.visibility = View.VISIBLE
 
-            val folders: Folder = dbHandler!!.getFolder(intent.getIntExtra("ID", 0))
+            val folders: Folders = dbHandler!!.getFolder(intent.getIntExtra("ID", 0))
             Log.d( "Cursorfile",folders.toString() )
             ETName.setText(folders.name)
             Log.d( "Cursorfile",ETName.toString())
@@ -51,7 +51,7 @@ class AddFolder : AppCompatActivity() {
 
         saveFolder.setOnClickListener {
             var success: Boolean = false
-            val folders: Folder = Folder()
+            val folders: Folders = Folders()
 
             if (isEditMode) {
                 //update

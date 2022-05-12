@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/folder_name"
-            android:text="@string/folder_name"
+            android:text="@string/folder"
             android:gravity="center"
             android:textStyle="bold"
             android:textSize="25dp"

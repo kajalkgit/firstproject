@@ -13,11 +13,14 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import com.kajal.videoplayer.MainActivity.Companion.folderList
+import com.kajal.videoplayer.MainActivity.Companion.videoList
 
 import com.kajal.videoplayer.databinding.ActivityMainBinding
 
@@ -43,19 +46,18 @@ class MainActivity : AppCompatActivity() {
     companion object {
        //static object
         lateinit var MusicListMA: ArrayList<Music>
-       
+
         lateinit var videoList: ArrayList<Video>
          var folderList: ArrayList<Folder>?=null
     }
-
-
-
-  // var helper = MyHelper(applicationContext)
+    // var helper = MyHelper(applicationContext)
 //    var db: SQLiteDatabase? = helper.readableDatabase
 
-    
+
+
     @RequiresApi(Build.VERSION_CODES.R)
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?)
+    {
         super.onCreate(savedInstanceState)
 
         // requestRuntimePermission()
@@ -63,8 +65,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding1.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (requestRuntimePermission()) {
+        if (requestRuntimePermission())
+        {
            initializeLayout()
             Log.d("all videosssss", getAllVideo().toString())
              folderList = ArrayList()
@@ -76,7 +80,8 @@ class MainActivity : AppCompatActivity() {
 //        Log.d("selectedidsss=>",selectedItem.toString())
         binding.bottomNav.setOnItemSelectedListener {
 
-            when (it.itemId) {
+            when (it.itemId)
+            {
                 R.id.MediaView -> setFragment(VideosFragment())
                 R.id.FoldersView -> setFragment(FoldersFragment())
                 R.id.AudioView -> setFragment(AudioFragment())
@@ -106,9 +111,9 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-  
 
-       
+
+
 
         // recycler_folder =findViewById(R.id.recycler_folder)
         //  btn_add = findViewById(R.id.add_btn)
@@ -122,10 +127,11 @@ class MainActivity : AppCompatActivity() {
 //        }
 //
 //        dbHandler = MyHelper(this)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-      
+
+
+
 
 
 //        binding.shuffleBtn.setOnClickListener {
@@ -147,7 +153,7 @@ class MainActivity : AppCompatActivity() {
 //        }
 
 
-    }
+
 
     private fun setFragment(fragment: Fragment){
         val transaction = supportFragmentManager.beginTransaction()
@@ -168,10 +174,7 @@ class MainActivity : AppCompatActivity() {
 
 
     //for req permission
-
-
     private fun requestRuntimePermission() :Boolean {
-
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -181,28 +184,27 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                13 )
+                13)
             return false
         }
         return true
+
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+        grantResults: IntArray)
+    {
         super.onRequestPermissionsResult(
-            requestCode, permissions, grantResults
-        )
-        if (requestCode == 13) 
-      {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) 
-            {
+            requestCode, permissions, grantResults)
+        if (requestCode == 13)
+        {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)  //to add curly braces
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-                 initializeLayout()
-            }
+                initializeLayout()
+
             folderList = ArrayList()
             videoList = getAllVideo()
             setFragment(VideosFragment())
@@ -211,8 +213,8 @@ class MainActivity : AppCompatActivity() {
                 this,
                 arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13 )
 
-    
-   }    
+        }
+
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun initializeLayout() {
@@ -257,8 +259,7 @@ class MainActivity : AppCompatActivity() {
             selection,
             null,
             MediaStore.Audio.Media.DEFAULT_SORT_ORDER,
-            null
-        )
+            null)
 
 
         Log.d("cursor", cursor.toString());
@@ -301,20 +302,25 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.nowPlaying.visibility=View.VISIBLE
+    }
+
     override fun onDestroy() {
         super.onDestroy()
-        if (!PlayerActivity.isPlaying && PlayerActivity.musicService != null){
+        if (!PlayerActivity.isPlaying && PlayerActivity.musicService != null) {
             PlayerActivity.musicService!!.stopForeground(true)
             PlayerActivity.musicService!!.mediaPlayer!!.release()
             PlayerActivity.musicService = null
             exitProcess(1)
-
-
+        }
     }
 
 
 
-    private fun getAllVideo(): ArrayList<Video> {
+    private fun getAllVideo(): ArrayList<Video>
+    {
         val tempList = ArrayList<Video>()
         val tempFolderList = ArrayList<String>()
         val projection = arrayOf(
@@ -325,16 +331,13 @@ class MainActivity : AppCompatActivity() {
             MediaStore.Video.Media.DATA,
             MediaStore.Video.Media.DATE_ADDED,
             MediaStore.Video.Media.DURATION,
-            MediaStore.Video.Media.BUCKET_ID
-
-        )
+            MediaStore.Video.Media.BUCKET_ID)
         val cursor = this.contentResolver.query(
             MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
             projection,
             null,
             null,
-            MediaStore.Video.Media.DATE_ADDED + " DESC"
-        )
+            MediaStore.Video.Media.DATE_ADDED + " DESC")
         if (cursor != null)
             if (cursor.moveToNext())
                 do {
@@ -377,8 +380,5 @@ class MainActivity : AppCompatActivity() {
         return tempList
     }
 }
-
-}
-
 
 

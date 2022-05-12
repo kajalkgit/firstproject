@@ -13,19 +13,23 @@ import com.kajal.videoplayer.databinding.FragmentNowPlayingBinding
 
 
 class NowPlaying : Fragment() {
-   companion object{
-       lateinit var binding: FragmentNowPlayingBinding
-   }
+    companion object {
+        lateinit var binding: FragmentNowPlayingBinding
+    }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_now_playing,container,false)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_now_playing, container, false)
         binding = FragmentNowPlayingBinding.bind(view)
-        binding.root.visibility =View.INVISIBLE
-
+        binding.root.visibility =View.GONE
+        binding.llMusicBar.visibility = View.VISIBLE
         binding.playPauseBtnNP.setOnClickListener {
             if (PlayerActivity.isPlaying) pauseMusic() else playMusic()
         }
-        binding.nextBtnNP.setOnClickListener{
+        binding.nextBtnNP.setOnClickListener {
             setSongPosition(increment = true)
             PlayerActivity.musicService!!.createMediaPlayer()
 
@@ -41,10 +45,10 @@ class NowPlaying : Fragment() {
         }
 
         binding.root.setOnClickListener {
-            val intent = Intent(requireContext(),PlayerActivity::class.java)
-            intent.putExtra("index",PlayerActivity.songPosition)
-            intent.putExtra("class","NowPlaying")
-            ContextCompat.startActivity(requireContext(),intent,null)
+            val intent = Intent(requireContext(), PlayerActivity::class.java)
+            intent.putExtra("index", PlayerActivity.songPosition)
+            intent.putExtra("class", "NowPlaying")
+            ContextCompat.startActivity(requireContext(), intent, null)
 
         }
         return view
@@ -52,7 +56,7 @@ class NowPlaying : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (PlayerActivity.musicService != null){
+        if (PlayerActivity.musicService != null) {
             binding.root.visibility = View.VISIBLE
             binding.songNameNP.isSelected = true //to move tittle
 
@@ -62,8 +66,8 @@ class NowPlaying : Fragment() {
                 .into(binding.songImageNP)
             binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title
 
-           //play and pause button condition
-            if(PlayerActivity.isPlaying) binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
+            //play and pause button condition
+            if (PlayerActivity.isPlaying) binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
             else
                 binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
 
@@ -71,22 +75,21 @@ class NowPlaying : Fragment() {
     }
 
     //play pause functionality
-    private fun playMusic(){
+    private fun playMusic() {
         PlayerActivity.musicService!!.mediaPlayer!!.start()
         binding.playPauseBtnNP.setIconResource(R.drawable.pause_icon)
         PlayerActivity.musicService!!.showNotification(R.drawable.pause_icon)
         PlayerActivity.binding.nextBtnPA.setIconResource(R.drawable.pause_icon)
-        PlayerActivity.isPlaying= true
+        PlayerActivity.isPlaying = true
     }
-    private fun pauseMusic(){
+
+    private fun pauseMusic() {
         PlayerActivity.musicService!!.mediaPlayer!!.pause()
         binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
         PlayerActivity.musicService!!.showNotification(R.drawable.play_icon)
         PlayerActivity.binding.nextBtnPA.setIconResource(R.drawable.play_icon)
-        PlayerActivity.isPlaying= false
+        PlayerActivity.isPlaying = false
     }
-
-
 
 
 }

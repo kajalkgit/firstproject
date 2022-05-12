@@ -8,7 +8,9 @@ import com.bumptech.glide.request.RequestOptions
 import kotlin.system.exitProcess
 
 class NotificationReceiver :BroadcastReceiver(){
+
     override fun onReceive(context: Context?, intent: Intent?) {
+
         when(intent?.action){
             ApplicationClass.PREVIOUS -> prevNextSong(increment = false,context=context!!)
             ApplicationClass.PLAY -> if (PlayerActivity.isPlaying) pauseMusic() else playMusic()
