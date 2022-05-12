@@ -3,12 +3,38 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+
+        <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/layout/exo_player_control_view.xml" value="0.13327289211242066" />
         <entry key="app/src/main/res/drawable-v24/video_player.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/add_icon.xml" value="0.1" />
+
         <entry key="app/src/main/res/drawable/back_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/delete_icon.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/exit_icon.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/favorite_icon.xml" value="0.169" />
+
+        <entry key="app/src/main/res/drawable/play_icon.xml" value="0.1165" />
+        <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/previous_icon.xml" value="0.1165" />
+        <entry key="app/src/main/res/drawable/scroll_bar_icon.xml" value="0.1265" />
+       
+        <entry key="app/src/main/res/drawable/splash_screen.xml" value="0.142" />
+        <entry key="app/src/main/res/drawable/video_player.xml" value="0.139" />
+        <entry key="app/src/main/res/layout/activity_favourite.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_folders.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.215625" />
+        <entry key="app/src/main/res/layout/activity_player.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_playerv.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.16875" />
+        <entry key="app/src/main/res/layout/custom_control_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/folders_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_folders.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_video.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/music_view.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/video_view.xml" value="0.22" />
+        <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.1" />
+
         <entry key="app/src/main/res/drawable/folder_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/music_icon.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/next_icon.xml" value="0.1" />
@@ -36,6 +62,7 @@
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.20092592592592592" />
         <entry key="app/src/main/res/layout/music_view.xml" value="0.33" />
         <entry key="app/src/main/res/menu/bottom_nav.xml" value="0.33" />
+
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/music_player_icon.xml" value="0.229" />
       </map>

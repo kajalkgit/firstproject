@@ -3,24 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:focusable="true"
-    android:background="@color/white"
-    tools:context=".VideosFragment"
+    tools:context=".FoldersFragment"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/totalVideos"
+        android:id="@+id/totalFolders"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Total Videos:"
+        android:text="Total Folders:"
         android:textColor="@color/black"
         android:layout_margin="10dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/VideoRV"
+        android:id="@+id/FoldersRV"
         android:layout_width="match_parent"
-        tools:listitem="@layout/video_view"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@drawable/scroll_bar_icon"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+

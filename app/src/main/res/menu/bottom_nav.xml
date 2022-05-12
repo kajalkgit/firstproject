@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <item android:id="@+id/FoldersView"
-        android:title="@string/folder_name"
-        android:icon="@drawable/folder_icon"/>
+        android:title="@string/all_folders"
+        android:icon="@drawable/folders_icon"/>
     <item android:id="@+id/MediaView"
-        android:title="@string/video_name"
-        android:icon="@drawable/video_player"/>
+        android:title="@string/all_media"
+        android:icon="@drawable/all_media_icon"/>
     <item android:id="@+id/AudioView"
         android:title="@string/audio_name"
         android:icon="@drawable/music_icon"/>
     <item android:id="@+id/ShuffleView"
     android:title="Shuffle"
     android:icon="@drawable/shuffle_icon"/>
-
-
 </menu>

@@ -1,10 +1,15 @@
 package com.kajal.videoplayer
 
+
+import android.content.Context
+
+
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -13,9 +18,13 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+
+import com.kajal.videoplayer.databinding.ActivityMainBinding
+
 import java.io.File
 import kotlin.system.exitProcess
 import com.kajal.videoplayer.databinding.ActivityMainBinding as ActivityMainBinding1
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding1
@@ -31,27 +40,75 @@ class MainActivity : AppCompatActivity() {
 //
 //   var linearLayoutManager : LinearLayoutManager ?= null
 
+    companion object {
+       //static object
+        lateinit var MusicListMA: ArrayList<Music>
+       
+        lateinit var videoList: ArrayList<Video>
+         var folderList: ArrayList<Folder>?=null
+    }
+
 
 
   // var helper = MyHelper(applicationContext)
 //    var db: SQLiteDatabase? = helper.readableDatabase
 
-    companion object { //static object
-        lateinit var MusicListMA: ArrayList<Music>
-       lateinit var folderList: ArrayList<Folder>
-    }
-
+    
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         // requestRuntimePermission()
         setTheme(R.style.coolPinkNav)
         binding = ActivityMainBinding1.inflate(layoutInflater)
         setContentView(binding.root)
 
 
+        if (requestRuntimePermission()) {
+           initializeLayout()
+            Log.d("all videosssss", getAllVideo().toString())
+             folderList = ArrayList()
+            videoList = getAllVideo()
 
-        setFragment(AudioFragment())
+            setFragment(VideosFragment())
+        }
+        ////////////////////////////chhama// //////////////////////
+//        Log.d("selectedidsss=>",selectedItem.toString())
+        binding.bottomNav.setOnItemSelectedListener {
+
+            when (it.itemId) {
+                R.id.MediaView -> setFragment(VideosFragment())
+                R.id.FoldersView -> setFragment(FoldersFragment())
+                R.id.AudioView -> setFragment(AudioFragment())
+                R.id.ShuffleView -> setFragment(ShuffleFragment())
+            }
+            return@setOnItemSelectedListener true
+
+        }
+
+
+//////////////////////////////////end//////////////////////////////////////
+//        binding.shuffleBtn.setOnClickListener{
+//            startActivity(Intent(this@MainActivity,PlayerActivity::class.java))
+//
+//        }
+//        binding.favrtBtn.setOnClickListener{
+//
+//
+//            startActivity(Intent(this@MainActivity,FavouriteActivity::class.java))
+//        }
+
+//       binding.playlistBtn.setOnClickListener{
+//
+//
+//            startActivity(Intent(this@MainActivity,playlistActivity::class.java))
+//        }
+
+    }
+
+  
+
+       
 
         // recycler_folder =findViewById(R.id.recycler_folder)
         //  btn_add = findViewById(R.id.add_btn)
@@ -68,20 +125,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        if (requestRuntimePermission())
-            initializeLayout()
-
-
-        binding.bottomNav.setOnItemSelectedListener {
-
-            when(it.itemId){
-                R.id.AudioView -> setFragment(AudioFragment())
-                R.id.ShuffleView -> setFragment(ShuffleFragment())
-            }
-            return@setOnItemSelectedListener true
-
-        }
-
+      
 
 
 //        binding.shuffleBtn.setOnClickListener {
@@ -124,7 +168,10 @@ class MainActivity : AppCompatActivity() {
 
 
     //for req permission
+
+
     private fun requestRuntimePermission() :Boolean {
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -134,11 +181,10 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                13)
+                13 )
             return false
         }
         return true
-
     }
 
     @RequiresApi(Build.VERSION_CODES.R)
@@ -150,17 +196,23 @@ class MainActivity : AppCompatActivity() {
         super.onRequestPermissionsResult(
             requestCode, permissions, grantResults
         )
-        if (requestCode == 13) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (requestCode == 13) 
+      {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) 
+            {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-                initializeLayout()
+                 initializeLayout()
             }
-            else
-                ActivityCompat.requestPermissions(
-                    this, arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13)
+            folderList = ArrayList()
+            videoList = getAllVideo()
+            setFragment(VideosFragment())
+        } else
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 13 )
 
-        }
-    }
+    
+   }    
 
     @RequiresApi(Build.VERSION_CODES.R)
     private fun initializeLayout() {
@@ -257,8 +309,76 @@ class MainActivity : AppCompatActivity() {
             PlayerActivity.musicService = null
             exitProcess(1)
 
-        }
+
+    }
+
+
+
+    private fun getAllVideo(): ArrayList<Video> {
+        val tempList = ArrayList<Video>()
+        val tempFolderList = ArrayList<String>()
+        val projection = arrayOf(
+            MediaStore.Video.Media.TITLE,
+            MediaStore.Video.Media.SIZE,
+            MediaStore.Video.Media._ID,
+            MediaStore.Video.Media.BUCKET_DISPLAY_NAME,
+            MediaStore.Video.Media.DATA,
+            MediaStore.Video.Media.DATE_ADDED,
+            MediaStore.Video.Media.DURATION,
+            MediaStore.Video.Media.BUCKET_ID
+
+        )
+        val cursor = this.contentResolver.query(
+            MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+            projection,
+            null,
+            null,
+            MediaStore.Video.Media.DATE_ADDED + " DESC"
+        )
+        if (cursor != null)
+            if (cursor.moveToNext())
+                do {
+                    val titleC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE))
+                    val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID))
+                    val folderC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME))
+                    val folderIdC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID))
+                    val sizeC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE))
+                    val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA))
+                    val durationC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION))
+                            .toLong()
+
+                    try {
+                        val file = File(pathC)
+                        val artUri = Uri.fromFile(file)
+                        val video = Video(
+                            title = titleC,
+                            id = idC,
+                            folderName = folderC,
+                            size = sizeC,
+                            path = pathC,
+                            artUri = artUri
+                        )
+                        if (file.exists()) tempList.add(video)
+
+                        //for adding folders
+
+                        if (!tempFolderList.contains(folderC)) {
+                            tempFolderList.add(folderC)
+                            folderList?.add(Folder(id = folderIdC, folderName = folderC))
+                        }
+                    } catch (e: Exception) {
+                    }
+                } while (cursor.moveToNext())
+        cursor?.close()
+        return tempList
     }
 }
+
+}
+
 
 
