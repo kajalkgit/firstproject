@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
-import com.kajal.videoplayer.databinding.ActivityPlayerBinding
 import com.kajal.videoplayer.databinding.ActivityPlayervBinding
 
 class PlayerActivityV : AppCompatActivity() {

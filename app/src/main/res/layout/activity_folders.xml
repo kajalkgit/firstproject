@@ -11,7 +11,15 @@
         android:id="@+id/totalVideosFA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Total Videos:"
+        android:text="Total Videos"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/totalAudioFA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Audios"
         android:textColor="@color/black"
         android:layout_margin="10dp"/>
 
@@ -21,5 +29,13 @@
         tools:listitem="@layout/video_view"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/AudioRVFA"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/music_view"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"/>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

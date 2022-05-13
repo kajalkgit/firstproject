@@ -21,12 +21,11 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.kajal.videoplayer.MainActivity.Companion.folderList
 import com.kajal.videoplayer.MainActivity.Companion.videoList
-
 import com.kajal.videoplayer.databinding.ActivityMainBinding
+import com.kajal.videoplayer.databinding.ActivityMainBinding as ActivityMainBinding1
 
 import java.io.File
 import kotlin.system.exitProcess
-import com.kajal.videoplayer.databinding.ActivityMainBinding as ActivityMainBinding1
 
 
 class MainActivity : AppCompatActivity() {
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity() {
              folderList = ArrayList()
             videoList = getAllVideo()
 
-            setFragment(VideosFragment())
+            setFragment(FoldersFragment())
         }
         ////////////////////////////chhama// //////////////////////
 //        Log.d("selectedidsss=>",selectedItem.toString())

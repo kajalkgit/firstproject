@@ -4,7 +4,7 @@
         android:title="@string/all_folders"
         android:icon="@drawable/folders_icon"/>
     <item android:id="@+id/MediaView"
-        android:title="@string/all_media"
+        android:title="@string/video"
         android:icon="@drawable/all_media_icon"/>
     <item android:id="@+id/AudioView"
         android:title="@string/audio_name"
