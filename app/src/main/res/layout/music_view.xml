@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="5dp"
         android:src="@drawable/musicplayericon"
-        app:shapeAppearance="@style/curved" />
+        app:shapeAppearance="@style/curved"/>
 
     <TextView
         android:id="@+id/songName"

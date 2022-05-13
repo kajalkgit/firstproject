@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.kajal.videoplayer.databinding.VideoViewBinding
 
-class VideoAdapter(private val context: Context, private var videoList: ArrayList<Video>) : RecyclerView.Adapter<VideoAdapter.MyHolder>() {
+class VideoAdapter(private val context: Context, private var videoList: ArrayList<Video>,private val isFolder:Boolean = false) : RecyclerView.Adapter<VideoAdapter.MyHolder>() {
     class MyHolder(binding: VideoViewBinding) : RecyclerView.ViewHolder(binding.root) {
         val vName = binding.videoName
         val folder = binding.folderName
@@ -36,13 +36,27 @@ class VideoAdapter(private val context: Context, private var videoList: ArrayLis
             .apply(RequestOptions().placeholder(R.drawable.video_player).centerCrop())
             .into(holder.image)
         holder.root.setOnClickListener {
-            val intent = Intent(context, PlayerActivityV::class.java)
-            ContextCompat.startActivity(context, intent, null)
+            when{
+                isFolder ->{
+                    sendIntent(pos= position, ref = "FoldersActivity")
+                }
+                else ->{
+                    sendIntent(pos= position, ref = "AllVideos")
+
+                }
+            }
+
         }
 
     }
 
     override fun getItemCount(): Int {
         return videoList.size
+    }
+    private fun sendIntent(pos: Int, ref:String){
+        PlayerActivityV.position = pos
+        val intent = Intent(context, PlayerActivityV::class.java)
+        intent.putExtra("class", ref)
+        ContextCompat.startActivity(context, intent, null)
     }
 }
