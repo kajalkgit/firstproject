@@ -27,6 +27,11 @@
     <string name="lock">Lock Icon</string>
     <string name="back_button">Back Button</string> ////////////////backbutton used in video/////////
     <string name="menu">Menu</string>
+    <string name="repeat_btn">Repeat Button</string>
+    <string name="fullscreen_btn">Fullscreen Button</string>
+    <string name="pree_btn">Previouss Button</string>
+    <string name="nexx_btn">Nextt Button</string>
+
 
 
     <string name="song_album">Song Album</string>

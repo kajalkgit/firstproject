@@ -4,15 +4,27 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../../layout/custom_preview.xml" value="0.1" />
-        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/layout/exo_player_control_view.xml" value="0.13327289211242066" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/drawable-anydpi-v21/exo_icon_fullscreen_enter.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/drawable-anydpi-v21/exo_icon_fullscreen_exit.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/drawable-anydpi-v21/exo_icon_repeat_all.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/drawable-anydpi-v21/exo_icon_repeat_off.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/drawable-anydpi-v21/exo_icon_repeat_one.xml" value="0.1" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/layout/exo_player_control_view.xml" value="0.22" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/layout/exo_player_view.xml" value="0.15715579710144928" />
+        <entry key="../../../.gradle/caches/transforms-3/904addf0b278bc1caa9d16521d052f5e/transformed/exoplayer-ui-2.17.1/res/layout/exo_styled_player_control_view.xml" value="0.25" />
+        <entry key="app/src/main/res/drawable-v24/exo_icon_fullscreen_enter.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable-v24/exo_icon_repeat_off.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/add_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/all_media_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/back_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/delete_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/exit_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/favorite_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/nex_icon.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/pause_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/play_icon.xml" value="0.1165" />
         <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.169" />
+        <entry key="app/src/main/res/drawable/pre_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/previous_icon.xml" value="0.1165" />
         <entry key="app/src/main/res/drawable/scroll_bar_icon.xml" value="0.1265" />
         <entry key="app/src/main/res/drawable/shuffle_icon.xml" value="0.169" />
@@ -22,10 +34,11 @@
         <entry key="app/src/main/res/layout/activity_folders.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.215625" />
         <entry key="app/src/main/res/layout/activity_player.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_playerv.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/activity_playerv.xml" value="0.14" />
         <entry key="app/src/main/res/layout/activity_playlist.xml" value="0.16875" />
         <entry key="app/src/main/res/layout/add_folder_dialog.xml" value="0.14621633176571183" />
         <entry key="app/src/main/res/layout/custom_control_view.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/exo_player_control_view.xml" value="0.15715579710144928" />
         <entry key="app/src/main/res/layout/folders_view.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_audio.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_folders.xml" value="0.33" />

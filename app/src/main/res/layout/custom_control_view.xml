@@ -20,6 +20,12 @@
       android:layout_marginHorizontal="5dp"/>
 
 
+  <ImageButton android:id="@id/exo_repeat_toggle"
+      style="@style/ExoStyledControls.Button.Bottom.RepeatToggle"/>
+
+  <!--<ImageButton android:id="@id/exo_fullscreen"
+      style="@style/ExoStyledControls.Button.Bottom.FullScreen"/> -->
+
 
   <LinearLayout
     android:layout_width="match_parent"
@@ -56,6 +62,8 @@
       android:textColor="@color/white"
         android:text="@string/loading"
         android:layout_margin="10dp"/>
+
+
 
   </LinearLayout>
 
