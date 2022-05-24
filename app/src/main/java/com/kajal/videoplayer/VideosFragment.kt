@@ -21,7 +21,7 @@ class VideosFragment : Fragment() {
         binding.VideoRV.layoutManager = LinearLayoutManager(requireContext())
         Log.d("videolist====>>>", MainActivity.videoList.toString())
         binding.VideoRV.adapter = VideoAdapter(requireContext(), MainActivity.videoList)
-        binding.totalVideos.text  = "Total Videos: ${MainActivity.folderList!!.size}"
+        binding.totalVideos.text  = "Total Videos: ${MainActivity.folderList?.size}"
 
         return view
     }

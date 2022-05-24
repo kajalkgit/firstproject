@@ -3,8 +3,9 @@ package com.kajal.videoplayer
 import android.media.MediaMetadataRetriever
 import java.util.concurrent.TimeUnit
 
-data class Music(val id: String, val title: String, val duration: Long=0, val album:String, val artist:String, val path:String,
-                                   val artUri: String)
+data class Music(val id: String, val title: String, val folderName: String,val duration: Long=0, val album:String, val artist:String, val path:String,
+                                   val artUri: String
+)
 
 class Folders  {
     var id:Int =0

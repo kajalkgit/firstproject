@@ -1,11 +1,7 @@
 package com.kajal.videoplayer
 
 
-import android.content.Context
-
-
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
@@ -19,9 +15,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import com.kajal.videoplayer.MainActivity.Companion.folderList
-import com.kajal.videoplayer.MainActivity.Companion.videoList
-import com.kajal.videoplayer.databinding.ActivityMainBinding
 import com.kajal.videoplayer.databinding.ActivityMainBinding as ActivityMainBinding1
 
 import java.io.File
@@ -47,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var MusicListMA: ArrayList<Music>
 
         lateinit var videoList: ArrayList<Video>
-         var folderList: ArrayList<Folder>?=null
+       var folderList: ArrayList<Folder>?=null
     }
     // var helper = MyHelper(applicationContext)
 //    var db: SQLiteDatabase? = helper.readableDatabase
@@ -69,11 +62,11 @@ class MainActivity : AppCompatActivity() {
         if (requestRuntimePermission())
         {
            initializeLayout()
-            Log.d("all videosssss", getAllVideo().toString())
-             folderList = ArrayList()
-            videoList = getAllVideo()
+//            Log.d("all videosssss", getAllVideo().toString())
+//             folderList = ArrayList()
+            //videoList = getAllVideo()
 
-            setFragment(FoldersFragment())
+            setFragment(AudioFragment())
         }
         ////////////////////////////chhama// //////////////////////
 //        Log.d("selectedidsss=>",selectedItem.toString())
@@ -204,8 +197,9 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
                 initializeLayout()
 
-            folderList = ArrayList()
-            videoList = getAllVideo()
+//            folderList = ArrayList()
+ //           videoList = getAllVideo()
+//            folderList = ArrayList()
             setFragment(VideosFragment())
         } else
             ActivityCompat.requestPermissions(
@@ -219,6 +213,11 @@ class MainActivity : AppCompatActivity() {
     private fun initializeLayout() {
 
         MusicListMA = getAllAudio()
+        Log.d("all videossssdfsdfdsss", getAllAudio().toString())
+        folderList = ArrayList()
+        videoList = getAllVideo()
+
+     // folderList = ArrayList()
         binding.mediaRV.setHasFixedSize(true)
         binding.mediaRV.setItemViewCacheSize(13)
 //        binding.mediaRV.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -233,7 +232,7 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     private fun getAllAudio(): ArrayList<Music> {
         val temList = ArrayList<Music>()
-        val tempFolderList = ArrayList<String>()
+
         val temFolderList = ArrayList<String>()
         val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
         val projection = arrayOf(
@@ -273,25 +272,49 @@ class MainActivity : AppCompatActivity() {
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
                     val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
-//                   // val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))
-//                   // val folderIdC = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID)))
+                     val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME)).toString()
+                     val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID)).toString()
 
-                   // )
-                    val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
-                    val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
+try {
 
-                    val music = Music(
-                        id = idC,
-                        title = titleC,
-                        album = albumC,
-                        artist = artistsC,
-                        path = pathC,
-                        duration = durationC,
-                        artUri = artUriC)
+    val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
+    val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
 
-                    val file = File(music.path)
-                    if (file.exists())
-                        temList.add(music)
+
+    val music = Music(
+        id = idC,
+        title = titleC,
+        album = albumC,
+        artist = artistsC,
+        folderName = folderC,
+        path = pathC,
+        duration = durationC,
+        artUri = artUriC
+    )
+
+    val file = File(music.path)
+    if (file.exists())
+        temList.add(music)
+
+}catch (e:Exception){}
+                    //for adding folders
+                    if(!temFolderList.contains(folderC)){
+                        temFolderList.add(folderC)
+//                        Log.d("all videosssss", folderList.toString())
+
+                     try {
+                         Log.d("sdf","sdsdfd")
+                         folderList!!.add(Folder(id = folderIdC, folderName = folderC))
+
+                     }
+                     catch (e : Exception){
+
+                         Log.d("all viddddddddddddd",e.toString()  + "    "+ folderList)
+
+                     }
+
+                    }
+
 
                 } while (cursor.moveToNext())
             cursor.close()

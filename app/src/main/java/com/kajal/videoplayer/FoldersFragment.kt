@@ -16,12 +16,15 @@ class FoldersFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_folders, container, false)
         val binding = FragmentFoldersBinding.bind(view)
+
         binding.FoldersRV.setHasFixedSize(true)
         binding.FoldersRV.setItemViewCacheSize(13)
         binding.FoldersRV.layoutManager = LinearLayoutManager(requireContext())
         binding.FoldersRV.adapter =
             MainActivity.folderList?.let { FoldersAdapter(requireContext(), it) }
-        binding.totalFolders.text  = "Total Folders: ${MainActivity.folderList!!.size}"
+//        binding.FoldersRV.adapter =
+//            MainActivity.folderList?.let { FoldersAdapter(requireContext(), it) }
+       binding.totalFolders.text  = "Total Folders: ${MainActivity.folderList!!.size}"
 
         return view
 
