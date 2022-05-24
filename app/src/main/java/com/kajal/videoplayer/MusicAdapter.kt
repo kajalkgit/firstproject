@@ -14,7 +14,7 @@ class MusicAdapter(private val context:Context, private val musicList: ArrayList
     class MyHolder(binding: MusicViewBinding): RecyclerView.ViewHolder(binding.root)
     {
        val title = binding.songName
-        val album = binding.songAlbum
+        val sFolder = binding.songFolder
         val image = binding.imageMV
         val duration = binding.songduration
         val root = binding.root
@@ -27,7 +27,7 @@ class MusicAdapter(private val context:Context, private val musicList: ArrayList
 
     override fun onBindViewHolder(holder: MusicAdapter.MyHolder, position: Int) {
         holder.title.text = musicList[position].title
-        holder.album.text = musicList[position].album
+        holder.sFolder.text = musicList[position].album
         holder.duration.text = formatDuration(musicList[position].duration)
 
         Glide.with(context)

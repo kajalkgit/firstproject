@@ -24,7 +24,7 @@ class FoldersFragment : Fragment() {
             MainActivity.folderList?.let { FoldersAdapter(requireContext(), it) }
 //        binding.FoldersRV.adapter =
 //            MainActivity.folderList?.let { FoldersAdapter(requireContext(), it) }
-       binding.totalFolders.text  = "Total Folders: ${MainActivity.folderList!!.size}"
+       binding.totalFolders.text  = "Total Folders: ${MainActivity.folderList?.size}"
 
         return view
 

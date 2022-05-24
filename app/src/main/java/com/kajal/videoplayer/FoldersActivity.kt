@@ -120,7 +120,7 @@ class FoldersActivity :AppCompatActivity() {
         val temList = ArrayList<Music>()
         val tempFolderList = ArrayList<String>()
 
-        val selection = MediaStore.Audio.Media.IS_MUSIC + " !=0"
+        val selection = MediaStore.Audio.Media.BUCKET_ID + " like? "
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.TITLE,
@@ -141,7 +141,7 @@ class FoldersActivity :AppCompatActivity() {
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
             projection,
             selection,
-            null,
+            arrayOf(folderId),
             MediaStore.Audio.Media.DEFAULT_SORT_ORDER,
             null)
 
@@ -159,9 +159,9 @@ class FoldersActivity :AppCompatActivity() {
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
                     val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
                  val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))
-                   val folderIdC = Integer.parseInt(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
+                   val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
 
-                   )
+
                     val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
                     val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
 
@@ -178,12 +178,8 @@ class FoldersActivity :AppCompatActivity() {
                     val file = File(music.path)
                     if (file.exists())
                         temList.add(music)
+
 //
-//                    //for adding folders
-//                    if(!tempFolderList.contains(folderC)){
-//                        tempFolderList.add(folderC)
-//                        folderList!!.add(Folder(id = folderIdC, folderName = folderC))
-//                    }
 
                 } while (cursor.moveToNext())
             cursor.close()

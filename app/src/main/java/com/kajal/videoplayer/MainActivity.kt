@@ -63,8 +63,8 @@ class MainActivity : AppCompatActivity() {
         {
            initializeLayout()
 //            Log.d("all videosssss", getAllVideo().toString())
-//             folderList = ArrayList()
-            //videoList = getAllVideo()
+//           folderList = ArrayList()
+//            videoList = getAllVideo()
 
             setFragment(AudioFragment())
         }
@@ -198,8 +198,8 @@ class MainActivity : AppCompatActivity() {
                 initializeLayout()
 
 //            folderList = ArrayList()
- //           videoList = getAllVideo()
-//            folderList = ArrayList()
+//            videoList = getAllVideo()
+//           folderList = ArrayList()
             setFragment(VideosFragment())
         } else
             ActivityCompat.requestPermissions(
@@ -212,9 +212,11 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.R)
     private fun initializeLayout() {
 
-        MusicListMA = getAllAudio()
+
         Log.d("all videossssdfsdfdsss", getAllAudio().toString())
+
         folderList = ArrayList()
+        MusicListMA = getAllAudio()
         videoList = getAllVideo()
 
      // folderList = ArrayList()
@@ -273,7 +275,7 @@ class MainActivity : AppCompatActivity() {
                     val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
                     val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
                      val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME)).toString()
-                     val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID)).toString()
+                     val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
 
 try {
 
@@ -293,27 +295,18 @@ try {
     )
 
     val file = File(music.path)
-    if (file.exists())
-        temList.add(music)
+    if (file.exists()) temList.add(music)
 
+    //for adding folders
+
+    if (!temFolderList.contains(folderC)) {
+        temFolderList.add(folderC)
+        folderList?.add(Folder(id = folderIdC, folderName = folderC))
+    }
 }catch (e:Exception){}
-                    //for adding folders
-                    if(!temFolderList.contains(folderC)){
-                        temFolderList.add(folderC)
-//                        Log.d("all videosssss", folderList.toString())
 
-                     try {
-                         Log.d("sdf","sdsdfd")
-                         folderList!!.add(Folder(id = folderIdC, folderName = folderC))
 
-                     }
-                     catch (e : Exception){
 
-                         Log.d("all viddddddddddddd",e.toString()  + "    "+ folderList)
-
-                     }
-
-                    }
 
 
                 } while (cursor.moveToNext())
