@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/next_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/pause_icon.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/play_icon.xml" value="0.2325" />
+        <entry key="app/src/main/res/drawable/playf_icon.xml" value="0.209" />
         <entry key="app/src/main/res/drawable/playlist_icon.xml" value="0.169" />
         <entry key="app/src/main/res/drawable/prev_icon.xml" value="0.1245" />
         <entry key="app/src/main/res/drawable/previous_icon.xml" value="0.1" />
@@ -34,7 +35,7 @@
         <entry key="app/src/main/res/layout/add_folder_dialog.xml" value="0.21646341463414634" />
         <entry key="app/src/main/res/layout/add_playlist_dialog.xml" value="0.22" />
         <entry key="app/src/main/res/layout/custom_control_view.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/folders_view.xml" value="0.20535714285714285" />
+        <entry key="app/src/main/res/layout/folders_view.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_add_folder.xml" value="0.23859649122807017" />
         <entry key="app/src/main/res/layout/fragment_audio.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_folder.xml" value="0.1" />

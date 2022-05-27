@@ -132,6 +132,14 @@ class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCom
                 bindService(intent,this, BIND_AUTO_CREATE)
                 startService(intent) //for starting service
 
+//                musicListPA = ArrayList()
+//                musicListPA.addAll(MainActivity.MusicListMA)
+//                musicListPA.shuffle()
+//                setLayout()
+//                createMediaPlayer()
+            }
+
+            "FoldersFragment"-> {
                 musicListPA = ArrayList()
                 musicListPA.addAll(MainActivity.MusicListMA)
                 musicListPA.shuffle()

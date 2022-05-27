@@ -32,17 +32,17 @@
 
 
 
+    <!--
+
+       <Button
+           android:id="@+id/edit_btn"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_marginLeft="92dp"
+           android:backgroundTint="@color/white"
+           android:text="edit"
+           android:textColor="@color/black"
+           android:textSize="18sp" /> -->
 
 
-    <Button
-        android:id="@+id/edit_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="92dp"
-        android:backgroundTint="@color/white"
-        android:text="edit"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
-
-
-</LinearLayout>
+   </LinearLayout>

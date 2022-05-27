@@ -1,41 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".FoldersActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".FoldersActivity">
 
 
-    <TextView
-        android:id="@+id/totalVideosFA"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Videos"
-        android:textColor="@color/black"
-        android:layout_margin="10dp"/>
+    <!--    <TextView
+           android:id="@+id/totalVideosFA"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Total Videos"
+           android:textColor="@color/black"
+           android:layout_margin="10dp"/>
 
-    <TextView
-        android:id="@+id/totalAudioFA"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Total Audios"
-        android:textColor="@color/black"
-        android:layout_margin="10dp"/>
+       <TextView
+           android:id="@+id/totalAudioFA"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:text="Total Audios"
+           android:textColor="@color/black"
+           android:layout_margin="10dp"/>   -->
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/VideoRVFA"
         android:layout_width="match_parent"
-        tools:listitem="@layout/video_view"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        tools:itemCount="2"
+        tools:listitem="@layout/video_view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/AudioRVFA"
         android:layout_width="match_parent"
-        tools:listitem="@layout/music_view"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical"/>
+        android:scrollbars="vertical"
+        tools:itemCount="2"
+        tools:listitem="@layout/music_view" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Folders"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        tools:itemCount="2"
+        tools:listitem="@layout/folders_view" />
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

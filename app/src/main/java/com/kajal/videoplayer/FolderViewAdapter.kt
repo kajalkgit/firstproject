@@ -1,10 +1,8 @@
 package com.kajal.videoplayer
 
 import android.content.Context
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.kajal.videoplayer.databinding.FoldersViewBinding
 
@@ -26,7 +24,7 @@ class FolderViewAdapter(private var context: Context,private val folderList: Arr
     class MyHolder(binding: FoldersViewBinding):RecyclerView.ViewHolder(binding.root)
     {
         val name = binding.folderNameFV
-        val edit = binding.editBtn
+       // val edit = binding.editBtn
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FolderViewAdapter.MyHolder {
@@ -47,13 +45,13 @@ class FolderViewAdapter(private var context: Context,private val folderList: Arr
 
         holder.name.isSelected = true
 
-        holder.edit.setOnClickListener{
-           val i= Intent(context,AddFolder::class.java)
-
-            i .putExtra("Mode","E")
-            i .putExtra("ID",folders.id)
-            ContextCompat.startActivity(context,i,null)
-        }
+//        holder.edit.setOnClickListener{
+//           val i= Intent(context,AddFolder::class.java)
+//
+//            i .putExtra("Mode","E")
+//            i .putExtra("ID",folders.id)
+//            ContextCompat.startActivity(context,i,null)
+//        }
 
 
     }

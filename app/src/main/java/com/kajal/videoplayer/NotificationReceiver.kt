@@ -7,14 +7,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import kotlin.system.exitProcess
 
-class NotificationReceiver :BroadcastReceiver(){
+class NotificationReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
 
-        when(intent?.action){
-            ApplicationClass.PREVIOUS -> prevNextSong(increment = false,context=context!!)
+        when (intent?.action) {
+            ApplicationClass.PREVIOUS -> prevNextSong(increment = false, context = context!!)
             ApplicationClass.PLAY -> if (PlayerActivity.isPlaying) pauseMusic() else playMusic()
-            ApplicationClass.NEXT -> prevNextSong(increment = true,context=context!!)
+            ApplicationClass.NEXT -> prevNextSong(increment = true, context = context!!)
             ApplicationClass.EXIT -> {
 
                 PlayerActivity.musicService!!.stopForeground(true)
@@ -47,7 +47,7 @@ class NotificationReceiver :BroadcastReceiver(){
         NowPlaying.binding.playPauseBtnNP.setIconResource(R.drawable.play_icon)
     }
 
-    private fun prevNextSong(increment: Boolean,context: Context){
+    private fun prevNextSong(increment: Boolean, context: Context) {
         setSongPosition(increment = increment)
         PlayerActivity.musicService!!.createMediaPlayer()
 
@@ -56,16 +56,18 @@ class NotificationReceiver :BroadcastReceiver(){
             .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
             .apply(RequestOptions().placeholder(R.drawable.musicplayericon).centerCrop())
             .into(PlayerActivity.binding.songImgPA)
-        PlayerActivity.binding.songNamePA.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title
+        PlayerActivity.binding.songNamePA.text =
+            PlayerActivity.musicListPA[PlayerActivity.songPosition].title
 
         //setting glide for now playing to change with notification
         Glide.with(context)
             .load(PlayerActivity.musicListPA[PlayerActivity.songPosition].artUri)
             .apply(RequestOptions().placeholder(R.drawable.musicplayericon).centerCrop())
             .into(NowPlaying.binding.songImageNP)
-        NowPlaying.binding.songNameNP.text = PlayerActivity.musicListPA[PlayerActivity.songPosition].title
+        NowPlaying.binding.songNameNP.text =
+            PlayerActivity.musicListPA[PlayerActivity.songPosition].title
 
-      playMusic()
+        playMusic()
 
 
     }

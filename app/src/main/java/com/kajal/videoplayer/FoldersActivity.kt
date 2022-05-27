@@ -13,13 +13,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.kajal.videoplayer.databinding.ActivityFoldersBinding
 import java.io.File
 
-class FoldersActivity :AppCompatActivity() {
+class FoldersActivity : AppCompatActivity() {
 
-    companion object{
+    companion object {
         lateinit var currentFoldersVideo: ArrayList<Video>
-        lateinit var currentFoldersAudio:ArrayList<Music>
-        var folderList: ArrayList<Folder>?=null
+        lateinit var currentFoldersAudio: ArrayList<Music>
+//        lateinit var folderList: ArrayList<Folder>
+
     }
+    var folderList: ArrayList<Folder>?=null
 
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,9 +29,9 @@ class FoldersActivity :AppCompatActivity() {
         val binding = ActivityFoldersBinding.inflate(layoutInflater)
         setTheme(R.style.coolPinkNav)
         setContentView(binding.root)
-
-        val position = intent.getIntExtra("position",0)
+        val position = intent.getIntExtra("position", 0)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        Log.d("datass",MainActivity.folderList!!.toString())
         supportActionBar?.title = MainActivity.folderList!![position].folderName
         currentFoldersVideo = getAllVideo(MainActivity.folderList!![position].id)
         currentFoldersAudio = getAllAudio(MainActivity.folderList!![position].id)
@@ -39,15 +41,14 @@ class FoldersActivity :AppCompatActivity() {
         binding.VideoRVFA.setItemViewCacheSize(13)
         binding.VideoRVFA.layoutManager = LinearLayoutManager(this@FoldersActivity)
         binding.AudioRVFA.layoutManager = LinearLayoutManager(this@FoldersActivity)
-        binding.VideoRVFA.adapter = VideoAdapter(this@FoldersActivity,currentFoldersVideo)
-        binding.AudioRVFA.adapter=MusicAdapter(this@FoldersActivity, currentFoldersAudio)
-        binding.totalVideosFA.text = "Total Videos: ${currentFoldersVideo.size}"
-        binding.totalAudioFA.text = "Total Audios: ${currentFoldersAudio.size}"
+        binding.VideoRVFA.adapter = VideoAdapter(this@FoldersActivity, currentFoldersVideo)
+        binding.AudioRVFA.adapter = MusicAdapter(this@FoldersActivity, currentFoldersAudio)
+        binding.Folders.adapter = folderList?.let { FoldersAdapter(this@FoldersActivity, it) }
+        Log.d("folderlist", folderList.toString())
+        //  binding.totalVideosFA.text = "Total Videos: ${currentFoldersVideo.size}"
+        // binding.totalAudioFA.text = "Total Audios: ${currentFoldersAudio.size}"
 
     }
-
-
-
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -56,10 +57,11 @@ class FoldersActivity :AppCompatActivity() {
 
     }
 
+
     private fun getAllVideo(folderId: String): ArrayList<Video> {
         val tempList = ArrayList<Video>()
-        val selection =  MediaStore.Video.Media.BUCKET_ID + " like? "
-       // val tempFolderList = ArrayList<String>()
+        val selection = MediaStore.Video.Media.BUCKET_ID + " like? "
+        // val tempFolderList = ArrayList<String>()
         val projection = arrayOf(
             MediaStore.Video.Media.TITLE,
             MediaStore.Video.Media.SIZE,
@@ -84,12 +86,15 @@ class FoldersActivity :AppCompatActivity() {
                     val titleC =
                         cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE))
                     val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media._ID))
-                    val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME))
-                   val folderIdC =
-                     cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID))
+                    val folderC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_DISPLAY_NAME))
+                    val folderIdC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.BUCKET_ID))
+                    val folderIdfc = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.BUCKET_ID))
                     val sizeC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.SIZE))
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA))
-                    val durationC = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION))
+                    val durationC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DURATION))
                             .toLong()
 
                     try {
@@ -103,10 +108,15 @@ class FoldersActivity :AppCompatActivity() {
                             path = pathC,
                             artUri = artUri
                         )
-                        if (file.exists()) tempList.add(video)
+                        if (file.exists())
+                            tempList.add(video)
 
 
                     } catch (e: Exception) {
+                        if(idC==null){
+                            Log.d("foldersss",folderIdC+" "+folderC)
+                        val folder = Folder(id = folderIdC, folderName = folderC)
+                        folderList?.add(folder)}
                     }
                 } while (cursor.moveToNext())
         cursor?.close()
@@ -135,7 +145,6 @@ class FoldersActivity :AppCompatActivity() {
         )
 
 
-
         //use to pass only internal context of audio
         val cursor = this.contentResolver.query(
             MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
@@ -143,7 +152,8 @@ class FoldersActivity :AppCompatActivity() {
             selection,
             arrayOf(folderId),
             MediaStore.Audio.Media.DEFAULT_SORT_ORDER,
-            null)
+            null
+        )
 
 
         Log.d("cursor", cursor.toString());
@@ -151,34 +161,51 @@ class FoldersActivity :AppCompatActivity() {
         if (cursor != null) {
             if (cursor.moveToFirst())
                 do {
-                    val titleC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
+                    val titleC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE))
                     val idC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media._ID))
-                    val albumC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
-                    val artistsC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
+                    val albumC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM))
+                    val artistsC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST))
                     val pathC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.DATA))
-                    val durationC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
-                    val albumIdC = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)).toString()
-                 val folderC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))
-                   val folderIdC = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
+                    val durationC =
+                        cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.DURATION))
+                    val albumIdC =
+                        cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID))
+                            .toString()
+                    val folderC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_DISPLAY_NAME))
+                    val folderIdC =
+                        cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.BUCKET_ID))
 
+                    try {
+                        val uri =
+                            Uri.parse("content://media/external/audio/albumart") //using glide with this
+                        val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
 
-                    val uri = Uri.parse("content://media/external/audio/albumart") //using glide with this
-                    val artUriC = Uri.withAppendedPath(uri, albumIdC.toString()).toString()
+                        val music = Music(
+                            id = idC,
+                            title = titleC,
+                            album = albumC,
+                            artist = artistsC,
+                            folderName = folderC,
+                            path = pathC,
+                            duration = durationC,
+                            artUri = artUriC
+                        )
 
-                    val music = Music(
-                        id = idC,
-                        title = titleC,
-                        album = albumC,
-                        artist = artistsC,
-                       folderName= folderC,
-                        path = pathC,
-                        duration = durationC,
-                        artUri = artUriC)
+                        val file = File(music.path)
+                        if (file.exists())
+                            temList.add(music)
+                    } catch (e: Exception) {
+                        Log.d("albums",idC)
+                        if(idC==null){
+                            Log.d("foldersssnew",folderIdC+" "+folderC)
 
-                    val file = File(music.path)
-                    if (file.exists())
-                        temList.add(music)
-
+                            val folder = Folder(id = folderIdC, folderName = folderC)
+                        folderList?.add(folder)}
+                    }
 //
 
                 } while (cursor.moveToNext())
@@ -188,7 +215,6 @@ class FoldersActivity :AppCompatActivity() {
         return temList
 
     }
-
 
 
 }

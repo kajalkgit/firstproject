@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.kajal.videoplayer">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--        tools:ignore="ScopedStorage"-->
+    <!--        />-->
 
-<!--        tools:ignore="ScopedStorage"/>-->
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
@@ -18,52 +19,55 @@
         android:allowBackup="true"
         android:icon="@mipmap/music_player_icon"
         android:label="Media Player"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/music_player_icon_round"
         android:supportsRtl="true"
         android:theme="@style/splash_screen"
-        android:requestLegacyExternalStorage="true"
         tools:ignore="AllowBackup">
 
         <activity
             android:name=".FavouriteActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".PlayerActivityV"
-            android:configChanges="uiMode|orientation|screenSize|screenLayout"/>
-            android:screenOrientation="landscape"
-            android:exported="false" />
+        <activity
+            android:name=".PlayerActivityV"
+            android:configChanges="uiMode|orientation|screenSize|screenLayout"
+            android:exported="false"
+            android:screenOrientation="landscape" />
 
-        <activity android:name=".AddFolder"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+        <activity
+            android:name=".AddFolder"
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FolderActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".FoldersActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-             />
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".PlayerActivity"
-            android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service android:name=".MusicService"/>
-        <receiver android:name=".NotificationReceiver"
-            android:enabled="true"/>
+
+        <service android:name=".MusicService" />
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>

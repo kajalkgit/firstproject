@@ -6,10 +6,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.kajal.videoplayer.databinding.FoldersViewBinding
-import com.kajal.videoplayer.databinding.MusicViewBinding
 
 class FoldersAdapter(private val context:Context, private val foldersList: ArrayList<Folder>) :RecyclerView.Adapter<FoldersAdapter.MyHolder>() {
     class MyHolder(binding: FoldersViewBinding): RecyclerView.ViewHolder(binding.root)
@@ -27,7 +24,7 @@ class FoldersAdapter(private val context:Context, private val foldersList: Array
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
        holder.folderName.text = foldersList[position].folderName
         holder.root.setOnClickListener{
-            val intent =  Intent(context,FoldersActivity::class.java)
+            val intent =  Intent(context,FoldersActivity::class.java)   //to get click on folder name
             intent.putExtra("position",position)
             ContextCompat.startActivity(context,intent,null)
         }
