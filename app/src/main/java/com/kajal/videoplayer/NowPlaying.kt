@@ -11,12 +11,10 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.kajal.videoplayer.databinding.FragmentNowPlayingBinding
 
-
 class NowPlaying : Fragment() {
     companion object {
         lateinit var binding: FragmentNowPlayingBinding
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

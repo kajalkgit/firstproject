@@ -19,8 +19,6 @@ class FolderActivity : AppCompatActivity() {
         lateinit var folderList: ArrayList<Folders>
     }
 
-
-
     var dbHandler:MyHelper ?= null
     //   var folderList: List<Folder>? =null
     lateinit var recycler_folder : RecyclerView

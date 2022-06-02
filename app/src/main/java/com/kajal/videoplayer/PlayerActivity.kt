@@ -15,7 +15,6 @@ import com.kajal.videoplayer.databinding.ActivityPlayerBinding
 
 class PlayerActivity : AppCompatActivity(), ServiceConnection, MediaPlayer.OnCompletionListener {
 
-
     companion object {
         lateinit var musicListPA: ArrayList<Music>
         var songPosition: Int = 0
